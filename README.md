@@ -1,11 +1,11 @@
-# Memoize-lru.js
-Fastest (see benchmarks), smallest (780b), most-efficient, dependency-free, JavaScript (JS) memoization lib. 
-Uses JavaScript [Map]([https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map), compatible with: Chrome 38+, Firefox 13+, IE11+, Safari 7.1+, Opera 25+.
+# Memoizerific.js
+Fastest (see benchmarks), smallest (476b min/gzip), most-efficient, dependency-free, JavaScript (JS) lib to memoize functions.
 Fully supports complex object arguments. 
-Implements LRU (least recently used) logic to keep the most recently used results purging the oldest result (when needed). 
-Works in the browser as well as node.
+Implements LRU (least recently used) cache to keep the most recently used results up to the provided limit. 
+For the browser as well as node.
+Uses [Map]([https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map), compatible with: Chrome 38+, Firefox 13+, IE11+, Safari 7.1+, Opera 25+.
 
-Memoization is the process of caching function results to be returned cheaply when the same arguments are used to call it again. 
+Memoization is the process of caching function results to be returned cheaply when the same arguments are used to call the function again. 
 
 ## Install
 ```javascript
@@ -27,41 +27,45 @@ myExpensiveFunction(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
 ```
 
 ## Options
-There is one option available, the max number of results to cache. 
-The cache works using LRU logic (least recently used), purging the oldest results when the limit is reached.
-In the above example, the cache is limited to a size of 50. 
-When the 51st unique combination of arguments is passed in, the least recently used combination of arguments is purged.
-
-We can also limit the cache to a size of 1:
-
+There is one option available: the max number of results to cache. 
 ```javascript
-var myExpensiveFunctionMemoized = memoizerific(1)(function(arg1, arg2, arg3, arg4) {
-    // so many long expensive calls in here
-});
+memoizerific(limit)(fn);
 
-myExpensiveFunctionMemoized(1, 2, 3, 4); // function is fully invoked
-myExpensiveFunctionMemoized(1, 2, 3, 4); // fast cached result is returned
-myExpensiveFunctionMemoized(1, 2, 3, 'X'); // function is fully invoked, new result is saved in cache, old cached result is purged
-myExpensiveFunctionMemoized(1, 2, 3, 'X'); // fast new cached result is returned
-myExpensiveFunctionMemoized(1, 2, 3, 4); // function is fully invoked again
-
+memoizerific(1)(function(){}); // cache 1 result
+memoizerific(10000)(function(){}); // cache 10,000 results
+memoizerific(0)(function(){}); // cache infinity results (not recommended)
 ```
-We can also have an unlimited cache size (not recommended):
+The cache works using LRU logic (least recently used), purging the oldest results when the limit is reached.
+
 ```javascript
-var myExpensiveFunctionMemoized = memoizerific(0)(function(arg1, arg2, arg3) {
-    // so many long expensive calls in here
-});
+// memoize 1 result
+var myMemoized = memoizerific(1)(function(arg1, arg2, arg3, arg4) {});
+
+myMemoized(1, 2, 3, 'a'); // function runs
+myMemoized(1, 2, 3, 'a'); // cached result is returned
+myMemoized(1, 2, 3, 'X'); // function runs again, new result is cached, old cached result is purged
+myMemoized(1, 2, 3, 'X'); // new cached result is returned
+myMemoized(1, 2, 3, 'a'); // function runs again...
 ```
 ## Benchmarks
 
-This library was built with real-world use-cases in mind, so the standard one-argument fibonacci test case will not be used. 
-Instead we test with multiple complex arguments like this:
+This library was built for real-world use-cases, we will not be using the easy one-argument fibonacci test commonly used for memoization.
+Instead we will test with multiple complex arguments, that look something like this:
 ```javascript
-myExpensiveFunctionMemoized({ a: 1, b: 2}, [{ x: 'x', q: 'q', }, { b: 8, c: 9 }], { z: 'z' }, ...);
+myMemoized(
+    { a: 1, b: 2}, // complex object argument
+    [{ x: 'x', q: 'q', }, { b: 8, c: 9 }], // array argument
+    { z: 'z' }, 
+    ...
+);
 
 ```
 
-Here are results against some of the top libraries:
+We generate a list of varying numbers of complex arguments (1 to 8 arguments), with varying degrees of variance, to increase and decrease cache hits and misses, 
+then run each memoization lib through them, timing the results. 
+For full details see the source at the [memoize-js-libs-benchmarks](https://github.com/thinkloop/memoize-js-libs-benchmarks) project.
+
+Here are results of some top projects:
 ```
 // low variance, mostly cache hits:
 

@@ -1,30 +1,17 @@
 {
-  "name": "memoize-lru",
+  "name": "memoizerific",
   "version": "1.0.0",
   "description": "Fastest, smallest, most-efficient JavaScript (JS) memoization lib",
-  "main": "memoize-lru",
+  "author": "@thinkloop",
+  "license": "MIT",
+  "homepage": "https://github.com/thinkloop/memoizerific#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/thinkloop/memoizerific.git" },  
+  "bugs": { "url": "https://github.com/thinkloop/memoizerific/issues" },
+  
+  "main": "memoizerific.min",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thinkloop/memoize-lru.git"
-  },
-  "keywords": [
-    "memoize",
-    "memoizer",
-    "memoization",
-    "javascript",
-    "js",
-    "lru",
-    "least",
-    "recently",
-    "used"
-  ],
-  "author": "@thinkloop",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/thinkloop/memoize-lru/issues"
-  },
-  "homepage": "https://github.com/thinkloop/memoize-lru#readme"
+  
+  "keywords": ["memoize", "memoizer", "memoization", "javascript", "js", "lru", "cache"]
 }
