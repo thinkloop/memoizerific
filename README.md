@@ -1,12 +1,12 @@
 # Memoizerific.js
-Fastest (see benchmarks), smallest (923b min/gzip), most-efficient, dependency-free, JavaScript (JS) memoization lib. 
+Fastest (see benchmarks), smallest (923b min/gzip), most-efficient, dependency-free, JavaScript memoization lib to memoize JS functions. 
 Fully supports multiple complex object arguments. 
 Implements LRU (least recently used) cache to maintain only the most recent results. 
 
 For the browser and nodejs.
 
-Memoization is the process of caching function results so that they can be returned cheaply 
-without re-running the function when it is re-invoked with the same arguments.
+Memoization is the process of caching function results, so that they can be returned cheaply, 
+without re-running the function when it is called again with the same arguments.
 
 ## Install
 ```javascript
@@ -40,7 +40,7 @@ memoizerific(1)(function(){}); // memoize 1 result
 memoizerific(10000)(function(){}); // memoize 10,000 results
 memoizerific(0)(function(){}); // memoize infinity results (not recommended)
 ```
-The cache works using LRU logic (least recently used), purging the oldest results when the limit is reached.
+The cache works using LRU logic, purging the least recently used results when the limit is reached.
 
 ```javascript
 // memoize 1 result
@@ -55,17 +55,17 @@ myMemoized(1, 2, 3, 'a'); // function runs again...
 
 ## Comparison
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests. 
-While others, such as this library, tackle the more general use-case of memoizing standard synchronous functions. Few, however, are suitable for real-world production environments.
-Following are the minimum criteria I look for in a professional memoization solution:
+While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
+Following are the minimum criteria I look for in a production-worthy memoization solution:
 
 - **Support for multiple arguments**: One argument memoizers start to fall short quickly when solving real problems.
 - **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, etc. (not just primitives like strings or numbers).
 - **Dynamic Cache**: A cache that grows unimpeded will quickly become a memory leak and source of bugs.
 - **Consistent performance profile**: Many libs perform well within certain parameters, but start to fail wildly in others, usually when a large cache is chosen, or many arguments are used. It is important that performance degrades predictably and linearly as the environment becomes less favorable, to avoid nasty surprises.
 
-Using this simply list, we can narrow down the field of possible candidates dramatically. 
-The popular [lodash solution](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache-size control. 
-Others support multiple complex arguments, but do not provide cache-size control solution:
+Using this list, we can narrow down the field of possible candidates by quite a bit. 
+The popular [lodash memoize](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache-size control. 
+Others support multiple complex arguments, but _do not manage the cache-size_ either:
 
 - :heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani) 
 
@@ -81,13 +81,13 @@ Three libs with reasonable traction, seem to meet the basic criteria:
 - [LRU-Memoize](https://github.com/erikras/lru-memoize) (@erikras)
 - ~~[LRU-Memoize](https://github.com/neilk/lru-memoize) (@neilk)~~
 
-After some quick testing, however, the library by @neilk was simply producing incorrect results, leaving two viable candidates.
+After some quick testing, however, we found the library by @neilk to be producing incorrect results, leaving only two viable candidates.
 Time to test performance.
 
 ## Benchmarks
 
 This library is intended for real-world use-cases, and is therefore benchmarked against other libraries using large, complex, real-world data. 
-Humanity doesn't need any more fibonacci solvers after all.
+We don't need any more fibonacci solving tools.
 Example arguments look like this:
 ```javascript
 myMemoized(
