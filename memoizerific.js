@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.memoizerific = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 if (typeof Map === 'function') {
@@ -104,11 +104,11 @@ module.exports = function (limit) {
             }
 
             if (!isMemoized) {
-                memoizerific.memoizeMisses++;
+                //memoizerific.memoizeMisses++;			   
                 fnResult = fn.apply(fn, arguments);
                 currentCache.set(arguments[argsLength - 1], fnResult);
             } else {
-                memoizerific.memoizeHits++;
+                //memoizerific.memoizeHits++;
             }
 
             if (limit && limit > 0) {
@@ -129,10 +129,12 @@ module.exports = function (limit) {
             return fnResult;
         };
 
+        /*
         memoizerific.memoizeHits = 0;
         memoizerific.memoizeMisses = 0;
         memoizerific.lru = lru;
         memoizerific.cache = cache;
+        */
 
         return memoizerific;
     };
@@ -184,4 +186,5 @@ function removeCachedResult(removedLru) {
     }
 }
 
-},{"./maporsimilar":1}]},{},[2]);
+},{"./maporsimilar":1}]},{},[2])(2)
+});

@@ -43,12 +43,12 @@ module.exports = function (limit) {
 			}
 			
 			if (!isMemoized) {
-                memoizerific.memoizeMisses++;			    
+                //memoizerific.memoizeMisses++;			    
     			fnResult = fn.apply(fn, arguments);
     			currentCache.set(arguments[argsLength - 1], fnResult);			    
 			}
 			else {
-                memoizerific.memoizeHits++;
+                //memoizerific.memoizeHits++;
 			}
 			
 			
@@ -71,10 +71,12 @@ module.exports = function (limit) {
         	return fnResult;
         };
         
+        /*
         memoizerific.memoizeHits = 0;
         memoizerific.memoizeMisses = 0;
         memoizerific.lru = lru;
         memoizerific.cache = cache;
+        */
         
         return memoizerific;
     };

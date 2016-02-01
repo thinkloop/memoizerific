@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/thinkloop/memoizerific/issues"
   },
-  "main": "memoizerific.min",
+  "main": "src/memoizerific",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,7 @@
     "memoize",
     "memoizer",
     "memoization",
+    "memoized",
     "javascript",
     "js",
     "lru",
