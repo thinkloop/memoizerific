@@ -122,6 +122,7 @@ Following is data from 5000 iterations for each test on firefox 44:
 | 1000       | 8        | 14%                           | 10,477ms    | 659ms    | **635ms**    | _4%_     |
 | 1000       | 8        | 1%                            | 6,943ms     | 1,501ms  | **1,466ms**  | _2%_     |
 
+
 ##### Results
 
 The results from these tests are interesting. 
