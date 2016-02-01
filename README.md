@@ -1,9 +1,8 @@
 # Memoizerific.js
-Fastest (see benchmarks), smallest (476b min/gzip), most-efficient, dependency-free, JavaScript (JS) lib to memoize functions.
-Fully supports complex object arguments. 
+Fastest (see benchmarks), smallest (923b min/gzip), most-efficient, dependency-free, JavaScript (JS) lib to memoize functions.
+Fully supports multiple complex object arguments. 
 Implements LRU (least recently used) cache to keep the most recently used results up to the provided limit. 
 For the browser as well as node.
-Uses [Map]([https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map), compatible with: Chrome 38+, Firefox 13+, IE11+, Safari 7.1+, Opera 25+.
 
 Memoization is the process of caching function results to be returned cheaply when the same arguments are used to call the function again. 
 
