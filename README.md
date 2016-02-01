@@ -28,7 +28,11 @@ myExpensiveFunction(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
 ```
 
 ## Options
-There is one option available: the max number of results to cache. 
+There is one option available: 
+
+`limit:` the max number of results to cache. 
+
+
 ```javascript
 memoizerific(limit)(fn);
 
@@ -63,13 +67,13 @@ Using this simply list, we can narrow down the field of possible candidates dram
 The popular [lodash](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache-size control. 
 These others support multiple complex arguments, but also do not provide a cache-size control solution:
 
-:heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani) 
+- :heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani) 
 
-:heavy_multiplication_x: [Memoize-strict](https://github.com/jshanson7/memoize-strict) (@jshanson7)
+- :heavy_multiplication_x: [Memoize-strict](https://github.com/jshanson7/memoize-strict) (@jshanson7)
 
-:heavy_multiplication_x: [Deep-memoize](https://github.com/rjmk/deep-memoize) (@rjmk)
+- :heavy_multiplication_x: [Deep-memoize](https://github.com/rjmk/deep-memoize) (@rjmk)
 
-:heavy_multiplication_x: [Mem](https://github.com/sindresorhus/mem) (@sindresorhus)
+- :heavy_multiplication_x: [Mem](https://github.com/sindresorhus/mem) (@sindresorhus)
 
 I found three libs that met the first three criteria that had decent traction:
 
