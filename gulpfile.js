@@ -3,13 +3,13 @@ var packageJSON = require('./package.json'),
 	gutil = require('gulp-util'),
 	vinylsource = require('vinyl-source-stream'),
 	vinylbuffer = require('vinyl-buffer'),
-	runSequence = require('run-sequence'),
 
 	browserify = require('browserify'),
-	babelify = require('babelify'),
+	derequire = require('gulp-derequire'),
+	rename = require('gulp-rename'),
 	streamify = require('gulp-streamify'),
-	umdify = require('umdify'),
 	uglify = require('gulp-uglify'),
+	gzip = require('gulp-gzip'),
 
 	path = {
 		SRC : 'src',
@@ -23,23 +23,23 @@ var packageJSON = require('./package.json'),
 
 gulp.task('default', function(callback) {
 	process.env.NODE_ENV = 'production';
-	return runSequence('processJS', function() { gutil.log('done!'); });
-});
-
-
-gulp.task('processJS', function() {
 	return browserify({
 			entries : [path.ENTRY_POINT],
-			standalone: 'memoizerific2',
+			standalone: 'memoizerific',
 			debug : false,
 			cache : {}, packageCache : {}, fullPaths : false
 		})
-		.transform("babelify", { presets: ["es2015"] })
 		.bundle()
 		    .on("error", handleError)
 			.pipe(vinylsource(path.OUT))
 			.pipe(vinylbuffer())
-			//.pipe(streamify(uglify()))
+			.pipe(derequire())
+			.pipe(gulp.dest(path.DEST))
+			.pipe(rename(path.OUT_MIN))
+			.pipe(streamify(uglify()))
+			.pipe(gulp.dest(path.DEST))
+			.pipe(rename(path.OUT_GZIP))
+			.pipe(gzip({ append: false, gzipOptions: { level: 9 }}))
 			.pipe(gulp.dest(path.DEST));
 });
 
