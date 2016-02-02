@@ -3,9 +3,9 @@ Fastest (see benchmarks), smallest (923b min/gzip), most-efficient, dependency-f
 Fully supports multiple complex object arguments. 
 Implements LRU (least recently used) cache to maintain only the most recent results. 
 
-For the browser and nodejs.
+Made for the browser and nodejs.
 
-Memoization is the process of caching function results, so that they can be returned cheaply, 
+Memoization is the process of caching function results, so that they can be returned cheaply 
 without re-running the function when it is called again with the same arguments.
 
 ## Install
@@ -41,6 +41,7 @@ memoizerific(10000)(function(){}); // memoize 10,000 results
 memoizerific(0)(function(){}); // memoize infinity results (not recommended)
 ```
 The cache works using LRU logic, purging the least recently used results when the limit is reached.
+For example:
 
 ```javascript
 // memoize 1 result
@@ -128,11 +129,11 @@ Following is data from 5000 iterations of each test on firefox 44:
 
 The results from the tests are interesting. 
 While LRU-Memoize performed quite well with few arguments and lots of cache hits, it quickly started to fall apart as the environment became more challenging.
-At 4+ arguments it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. 
+At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. 
 I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
-In most scenarios this would not be very noticeable. In some demanding ones,
+In most scenarios this will not be very noticeable. In other especially demanding ones,
 such as memoizing in a loop, or through a long recursion chain, it might be.
 Importantly though, it degraded very gracefully, and remained within sub 1s levels almost all the time.
 Memoizee is a sturdy, well-built library that I would recommend for production use.
