@@ -30,7 +30,7 @@ gulp.task('default', function(callback) {
 gulp.task('processJS', function() {
 	return browserify({
 			entries : [path.ENTRY_POINT],
-			standalone: 'memoizerific',
+			standalone: 'memoizerific2',
 			debug : false,
 			cache : {}, packageCache : {}, fullPaths : false
 		})
@@ -39,7 +39,7 @@ gulp.task('processJS', function() {
 		    .on("error", handleError)
 			.pipe(vinylsource(path.OUT))
 			.pipe(vinylbuffer())
-			.pipe(streamify(uglify()))
+			//.pipe(streamify(uglify()))
 			.pipe(gulp.dest(path.DEST));
 });
 
