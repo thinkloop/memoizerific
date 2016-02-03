@@ -86,6 +86,13 @@ Similar.prototype.has = function(key) {
     return false;
 };
 
+Similar.prototype.forEach = function(callback, thisArg) {
+    var i;
+    for (i = 0; i < this.size; i++) {
+        callback.call(thisArg || this, this.list[i].val, this.list[i].key, this);
+    }
+};
+
 Similar.prototype.indexOf = function(key) {
     var i;
     for (i = 0; i < this.size; i++) {
