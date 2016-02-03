@@ -7,11 +7,20 @@ Made for the browser and nodejs.
 
 Memoization is the process of caching function results, so that they can be returned cheaply
 without re-running the function when it is called again with the same arguments.
+This has become especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
+and the push to calculate all derived data on the fly, while maintaining the minimum state possible.
 
 ## Install
-```javascript
+```
 npm install memoizerific --save
 ```
+
+Or use one of the compiled distributions compatible in any environment (umd):
+
+- [memoizerific.js](https://raw.githubusercontent.com/thinkloop/memoizerific/master/memoizerific.js)
+- [memoizerific.min.js](https://raw.githubusercontent.com/thinkloop/memoizerific/master/memoizerific.min.js) (minified)
+- [memoizerific.min.gzip.js](https://github.com/thinkloop/memoizerific/raw/master/memoizerific.min.gzip.js) (minified + gzipped)
+
 
 ## Use
 ```javascript
@@ -21,10 +30,19 @@ var myExpensiveFunctionMemoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // so many long expensive calls in here
 });
 
-myExpensiveFunction(1, 2, 3); // damn, that took looooong to process
-myExpensiveFunction(1, 2, 3); // wow, that one was instant!
-myExpensiveFunction(2, 3, 4); // expensive again :(
-myExpensiveFunction(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
+myExpensiveFunctionMemoized(1, 2, 3); // that took looooong to process
+myExpensiveFunctionMemoized(1, 2, 3); // wow, that one was instant!
+myExpensiveFunctionMemoized(2, 3, 4); // expensive again :(
+myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
+```
+Or with complex arguments:
+```javascript
+var complexArg1 = { a: { b: { c: 99 }}},
+    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}],
+    complexArg3 = new Map([['d', 55],['e', 66]]);
+
+myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3); // slow
+myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3); // instant!
 ```
 
 ## Options
