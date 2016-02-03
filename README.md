@@ -66,7 +66,7 @@ For example:
 // memoize 1 result
 var myMemoized = memoizerific(1)(function(arg1, arg2, arg3, arg4) {});
 
-myMemoized(1, 2, 3, 'a'); // function runs
+myMemoized(1, 2, 3, 'a'); // function runs, result is cached
 myMemoized(1, 2, 3, 'a'); // cached result is returned
 myMemoized(1, 2, 3, 'X'); // function runs again, new result is cached, old cached result is purged
 myMemoized(1, 2, 3, 'X'); // new cached result is returned
