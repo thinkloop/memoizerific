@@ -12,9 +12,17 @@
   "bugs": {
     "url": "https://github.com/thinkloop/memoizerific/issues"
   },
-  "main": "memoizerific.min",
+  "main": "src/memoizerific",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "npm run test",
+    "build": "npm run build:browserify && npm run build:minify && npm run build:gzip",
+    "build:browserify": "browserify src/memoizerific.js --detectGlobals false --standalone memoizerific | derequire > memoizerific.js",
+    "build:minify": "uglifyjs memoizerific.js --compress drop_console,unused=false --mangle --screw-ie8 > memoizerific.min.js",
+    "build:gzip": "gzip --best -v -c memoizerific.min.js > memoizerific.min.gzip.js",
+    "build:stream": "browserify src/memoizerific.js --standalone memoizerific | derequire | tee dist/memoizerific.js | uglifyjs --compress drop_console,unused=false --mangle --screw-ie8 | tee dist/memoizerific.min.js | gzip --best -v -c > dist/memoizerific.min.gzip.js",
+    "test": "npm run test:map && npm run test:similar",
+    "test:map": "TEST_MAPORSIMILAR=false JASMINE_CONFIG_PATH=jasmine.json jasmine",
+    "test:similar": "TEST_MAPORSIMILAR=true JASMINE_CONFIG_PATH=jasmine.json jasmine"
   },
   "keywords": [
     "memoize",
@@ -26,18 +34,13 @@
     "lru",
     "cache"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "map-or-similar": "^1.0.6"
+  },
   "devDependencies": {
     "browserify": "^13.0.0",
-    "gulp": "^3.9.0",
-    "gulp-derequire": "^2.1.0",
-    "gulp-gzip": "^1.2.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-streamify": "^1.0.2",
-    "gulp-uglify": "^1.5.1",
-    "gulp-util": "^3.0.7",
-    "run-sequence": "^1.1.5",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "derequire": "^2.0.3",
+    "jasmine": "^2.4.1",
+    "uglify-js": "^2.6.1"
   }
 }

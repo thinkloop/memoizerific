@@ -1,11 +1,11 @@
 # Memoizerific.js
-Fastest (see benchmarks), smallest (923b min/gzip), most-efficient, dependency-free, JavaScript memoization lib to memoize JS functions. 
-Fully supports multiple complex object arguments. 
-Implements LRU (least recently used) cache to maintain only the most recent results. 
+Fastest (see benchmarks), smallest (1k min/gzip), most-efficient, JavaScript memoization lib to memoize JS functions.
+Fully supports multiple complex object arguments.
+Implements LRU (least recently used) cache to maintain only the most recent results.
 
 Made for the browser and nodejs.
 
-Memoization is the process of caching function results, so that they can be returned cheaply 
+Memoization is the process of caching function results, so that they can be returned cheaply
 without re-running the function when it is called again with the same arguments.
 
 ## Install
@@ -28,9 +28,9 @@ myExpensiveFunction(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
 ```
 
 ## Options
-There is one option available: 
+There is one option available:
 
-`limit:` the max number of results to cache. 
+`limit:` the max number of results to cache.
 
 
 ```javascript
@@ -55,7 +55,7 @@ myMemoized(1, 2, 3, 'a'); // function runs again...
 ```
 
 ## Comparison
-There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests. 
+There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
 Following are the minimum criteria I look for in a production-worthy memoization solution:
 
@@ -64,11 +64,11 @@ Following are the minimum criteria I look for in a production-worthy memoization
 - **Dynamic Cache**: An uncontrolled cache that grows unimpeded will quickly become a memory leak and source of bugs.
 - **Consistent performance profile**: Many libs perform well within certain parameters, but start to fail wildly in others, usually when a large cache is chosen, or many arguments are used. It is important that performance degrades predictably and linearly as the environment becomes less favorable to avoid nasty surprises.
 
-Using this list, we can narrow down the field of possible candidates quite a bit. 
-The popular [lodash memoize](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache control. 
+Using this list, we can narrow down the field of possible candidates quite a bit.
+The popular [lodash memoize](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache control.
 Others support multiple complex arguments, but do not offer mechanisms to manage the cache-size:
 
-- :heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani) 
+- :heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani)
 
 - :heavy_multiplication_x: [Memoize-strict](https://github.com/jshanson7/memoize-strict) (@jshanson7)
 
@@ -88,8 +88,8 @@ Time to test performance.
 
 ## Benchmarks
 
-This library is intended for real-world use-cases, and is therefore benchmarked against other libraries using large, complex, real-world data. 
-There are enough fibonacci solvers out there. 
+This library is intended for real-world use-cases, and is therefore benchmarked against other libraries using large, complex, real-world data.
+There are enough fibonacci solvers out there.
 Example arguments look like this:
 ```javascript
 myMemoized(
@@ -101,7 +101,7 @@ myMemoized(
 
 ```
 We generated sets of thousands of random argument combinations of varying variance (to increase and decrease cache hits and misses) and fed
-them to each library. For the full details and source of the benchmarks see [memoize-js-libs-benchmarks](https://github.com/thinkloop/memoize-js-libs-benchmarks).
+them to each library.
 
 ##### Data
 Following is data from 5000 iterations of each test on firefox 44:
@@ -127,9 +127,9 @@ Following is data from 5000 iterations of each test on firefox 44:
 
 ##### Results
 
-The results from the tests are interesting. 
+The results from the tests are interesting.
 While LRU-Memoize performed quite well with few arguments and lots of cache hits, it quickly started to fall apart as the environment became more challenging.
-At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. 
+At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems.
 I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
@@ -138,5 +138,5 @@ such as memoizing in a loop, or through a long recursion chain, it might be.
 Importantly though, it degraded very gracefully, and remained within sub 1s levels almost all the time.
 Memoizee is a sturdy, well-built library that I would recommend for production use.
 
-Memoizerific was the performance winner. It is built with complex real-world use in mind. 
+Memoizerific was the performance winner. It is built with complex real-world use in mind.
 I would, of course, recommend it for serious production use.

@@ -1,4 +1,4 @@
-var MapOrSimilar = require('./maporsimilar');
+var MapOrSimilar = require('map-or-similar');
 
 module.exports = function (limit) {
     var cache = new MapOrSimilar(),
@@ -62,8 +62,13 @@ module.exports = function (limit) {
 				}
 			}
 
+			memoizerific.wasMemoized = isMemoized;
+
         	return fnResult;
         };
+
+        memoizerific.cache = cache;
+        memoizerific.lru = lru;
 
         return memoizerific;
     };
