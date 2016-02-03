@@ -39,10 +39,11 @@ Or with complex arguments:
 ```javascript
 var complexArg1 = { a: { b: { c: 99 }}},
     complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}],
-    complexArg3 = new Map([['d', 55],['e', 66]]);
+    complexArg3 = new Map([['d', 55],['e', 66]]),
+    complexArg4 = new Set();
 
-myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3); // slow
-myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3); // instant!
+myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
+myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
 ```
 
 ## Options
