@@ -85,10 +85,6 @@ memoizedFn.cache       : The cache object that stores all the memoized results.
 memoizedFn.lru         : The lru object that stores the most recent arguments called.
 
 ```
-Given a memoized function:
-```Javascript
-var memoizedFn = memoizerific(20)(function(arg1) {});
-```
 
 ## Comparison
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
