@@ -67,6 +67,8 @@ module.exports = function (limit) {
         	return fnResult;
         };
 
+        memoizerific.limit = limit;
+        memoizerific.wasMemoized = false;
         memoizerific.cache = cache;
         memoizerific.lru = lru;
 
