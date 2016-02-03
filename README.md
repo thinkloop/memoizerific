@@ -73,6 +73,23 @@ myMemoized(1, 2, 3, 'X'); // new cached result is returned
 myMemoized(1, 2, 3, 'a'); // function runs again...
 ```
 
+## Internals
+The internals of the memoized function are available for introspection.
+They should not be manipulated directly, but can be useful to read.
+The following properties are available:
+
+```Slim
+memoizedFn.limit       : The cache limit that was passed in. This will never change.
+memoizedFn.wasMemoized : Returns true if the last invocation was a cache hit, otherwise false.
+memoizedFn.cache       : The cache object that stores all the memoized results.
+memoizedFn.lru         : The lru object that stores the most recent arguments called.
+
+```
+Given a memoized function:
+```Javascript
+var memoizedFn = memoizerific(20)(function(arg1) {});
+```
+
 ## Comparison
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
@@ -159,3 +176,7 @@ Memoizee is a sturdy, well-built library that I would recommend for production u
 
 Memoizerific was the performance winner. It is built with complex real-world use in mind.
 I would, of course, recommend it for serious production use.
+
+## License
+
+Released under an MIT license.
