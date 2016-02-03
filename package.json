@@ -1,6 +1,6 @@
 {
   "name": "memoizerific",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Fastest, smallest, most-efficient JavaScript memoization lib to memoize JS functions",
   "author": "@thinkloop",
   "license": "MIT",
@@ -15,12 +15,10 @@
   "main": "src/memoizerific",
   "scripts": {
     "prebuild": "npm run test",
-
     "build": "npm run -s build:browserify | tee memoizerific.js | npm run -s build:minify | tee memoizerific.min.js | npm run -s build:gzip > memoizerific.min.gzip.js",
     "build:browserify": "browserify src/memoizerific.js --detectGlobals false --standalone memoizerific | derequire",
     "build:minify": "uglifyjs --compress drop_console,unused=false --mangle --screw-ie8",
     "build:gzip": "gzip --best -v -c",
-
     "test": "npm run test:map && npm run test:similar",
     "test:map": "TEST_MAPORSIMILAR=false JASMINE_CONFIG_PATH=jasmine.json jasmine",
     "test:similar": "TEST_MAPORSIMILAR=true JASMINE_CONFIG_PATH=jasmine.json jasmine"
