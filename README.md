@@ -182,3 +182,8 @@ I would, of course, recommend it for serious production use.
 ## License
 
 Released under an MIT license.
+
+### Other Libs
+
+- [Map or Similar](https://github.com/thinkloop/map-or-similar): A JavaScript (JS) Map or Similar object polyfill if Map is not available.
+- [Multi Key Cache](https://github.com/thinkloop/multi-key-cache): A JavaScript (JS) cache that can have multiple complex values as keys.
