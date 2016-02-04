@@ -165,7 +165,7 @@ At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began t
 I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
-In most scenarios this will not be very noticeable. In other especially demanding ones,
+In most scenarios this will not be very noticeable. In other, especially demanding ones,
 such as memoizing in a loop, or through a long recursion chain, it might be.
 Importantly though, it degraded very gracefully, and remained within sub 1s levels almost all the time.
 Memoizee is a sturdy, well-built library that I would recommend for production use.
