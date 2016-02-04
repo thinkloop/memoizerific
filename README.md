@@ -93,7 +93,7 @@ Following are the minimum criteria I look for in a production-worthy memoization
 
 - **Support for multiple arguments**: One argument memoizers start to fall short quickly when solving real problems.
 - **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, etc. (not just primitives like strings or numbers).
-- **Dynamic Cache**: An uncontrolled cache that grows unimpeded will quickly become a memory leak and source of bugs.
+- **Controlled cache**: A cache that grows unimpeded will quickly become a memory leak and source of bugs.
 - **Consistent performance profile**: Many libs perform well within certain parameters, but start to fail wildly in others, usually when a large cache is chosen, or many arguments are used. It is important that performance degrades predictably and linearly as the environment becomes less favorable to avoid nasty surprises.
 
 Using this list, we can narrow down the field of possible candidates quite a bit.
