@@ -120,7 +120,7 @@ Time to test performance.
 
 ## Benchmarks
 
-This library is intended for real-world use-cases, and is therefore benchmarked against other libraries using large, complex, real-world data.
+This library is intended for real-world use-cases, and is therefore benchmarked using large, complex, real-world data.
 There are enough fibonacci solvers out there.
 Example arguments look like this:
 ```javascript
@@ -156,6 +156,12 @@ Following is data from 5000 iterations of each test on firefox 44:
 | 1000       | 8        | 14%                           | 10,477ms    | 659ms    | **635ms**    | _4%_     |
 | 1000       | 8        | 1%                            | 6,943ms     | 1,501ms  | **1,466ms**  | _2%_     |
 
+```
+Cache Size                    : The maximum number of results to cache.
+Num Args                      : The number of arguments the memoized function accepts, ex. fn(arg1, arg2, arg3) is 3.
+Approx. Cache Hits (variance) : How varied the passed in arguments are. If the exact same arguments are always used, the cache would be hit 100% of the time. If the same arguments are never used, the cache would be hit 0% of the time.
+% Faster                      : How much faster the 1st best performer was from the 2nd best performer (not against the worst performer).
+```
 
 ##### Results
 
