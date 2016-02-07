@@ -111,7 +111,7 @@ module.exports = function (limit) {
     var cache = new MapOrSimilar(),
         lru = [];
 
-    return function(fn) {
+    return function (fn) {
         var memoizerific = function () {
             var currentCache = cache,
                 newMap,
@@ -123,55 +123,59 @@ module.exports = function (limit) {
 
             // loop through each argument to traverse the map tree
             for (i = 0; i < argsLengthMinusOne; i++) {
-                lruPath[i] = { cacheItem: currentCache, arg: arguments[i] };
+                lruPath[i] = {
+                    cacheItem: currentCache,
+                    arg: arguments[i]
+                };
 
-        	    // if all arguments exist in map tree, the memoized result will be last value to be retrieved
-        		if (currentCache.has(arguments[i])) {
-        			currentCache = currentCache.get(arguments[i]);
-        			continue;
-        		}
+                // if all arguments exist in map tree, the memoized result will be last value to be retrieved
+                if (currentCache.has(arguments[i])) {
+                    currentCache = currentCache.get(arguments[i]);
+                    continue;
+                }
 
-    		    isMemoized = false;
+                isMemoized = false;
 
-    		    // make maps until last value
+                // make maps until last value
                 newMap = new MapOrSimilar();
-				currentCache.set(arguments[i], newMap);
-				currentCache = newMap;
-        	}
+                currentCache.set(arguments[i], newMap);
+                currentCache = newMap;
+            }
 
-			// we are at the last arg, check if it is really memoized
-			if (isMemoized) {
-        		if (currentCache.has(arguments[argsLengthMinusOne])) {
-        			fnResult = currentCache.get(arguments[argsLengthMinusOne]);
-        		}
-    			else {
-    			    isMemoized = false;
-    			}
-			}
+            // we are at the last arg, check if it is really memoized
+            if (isMemoized) {
+                if (currentCache.has(arguments[argsLengthMinusOne])) {
+                    fnResult = currentCache.get(arguments[argsLengthMinusOne]);
+                } else {
+                    isMemoized = false;
+                }
+            }
 
-			if (!isMemoized) {
-    			fnResult = fn.apply(null, arguments);
-    			currentCache.set(arguments[argsLengthMinusOne], fnResult);
-			}
+            if (!isMemoized) {
+                fnResult = fn.apply(null, arguments);
+                currentCache.set(arguments[argsLengthMinusOne], fnResult);
+            }
 
-			if (limit > 0) {
-			    lruPath[argsLengthMinusOne] = { cacheItem: currentCache, arg: arguments[argsLengthMinusOne] };
+            if (limit > 0) {
+                lruPath[argsLengthMinusOne] = {
+                    cacheItem: currentCache,
+                    arg: arguments[argsLengthMinusOne]
+                };
 
                 if (isMemoized) {
                     moveToMostRecentLru(lru, lruPath);
-                }
-                else {
-				    lru.push(lruPath);
+                } else {
+                    lru.push(lruPath);
                 }
 
                 if (lru.length > limit) {
-				    removeCachedResult(lru.shift());
-				}
-			}
+                    removeCachedResult(lru.shift());
+                }
+            }
 
-			memoizerific.wasMemoized = isMemoized;
+            memoizerific.wasMemoized = isMemoized;
 
-        	return fnResult;
+            return fnResult;
         };
 
         memoizerific.limit = limit;
@@ -192,15 +196,15 @@ function moveToMostRecentLru(lru, lruPath) {
 
     for (i = 0; i < lruLen; i++) {
         isMatch = true;
-	    for (ii = 0; ii < lruPathLen; ii++) {
-	        if (lru[i][ii].arg !== lruPath[ii].arg) {
-	            isMatch = false;
-	            break;
-	        }
-	    }
-	    if (isMatch) {
-	        break;
-	    }
+        for (ii = 0; ii < lruPathLen; ii++) {
+            if (lru[i][ii].arg !== lruPath[ii].arg) {
+                isMatch = false;
+                break;
+            }
+        }
+        if (isMatch) {
+            break;
+        }
     }
 
     lru.push(lru.splice(i, 1)[0]);
@@ -222,11 +226,11 @@ function removeCachedResult(removedLru) {
 
         if (!tmp || !tmp.size) {
             currentLru.cacheItem.delete(currentLru.arg);
-        }
-        else {
+        } else {
             break;
         }
     }
 }
+
 },{"map-or-similar":1}]},{},[3])(3)
 });

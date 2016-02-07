@@ -40,5 +40,5 @@ describe("fibonacci", () => {
     it("should be map or similar", () => { expect(fibonacciMemoized.cache instanceof Map).toEqual(process.env.TEST_MAPORSIMILAR !== 'true'); });
     it("should equal non-memoized result", () => { expect(fibonacciResult).toEqual(fibonacciMemoizedResult); });
     it("should have proper lru length", () => { expect(fibonacciMemoized.lru.length).toEqual(41); });
-    it("should be at least 20x faster", () => { expect(ratioDifference >= 20).toEqual(true); });
+    it("should be at least 10x faster", () => { expect(ratioDifference >= 10).toEqual(true); });
 });
