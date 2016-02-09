@@ -1,4 +1,6 @@
 # Memoizerific.js
+[![Build Status](https://travis-ci.org/thinkloop/memoizerific.svg?branch=master)](https://travis-ci.org/thinkloop/memoizerific)
+
 Fastest (see benchmarks), smallest (1k min/gzip), most-efficient, JavaScript memoization lib to memoize JS functions.
 Fully supports multiple complex object arguments.
 Implements LRU (least recently used) cache to maintain only the most recent results.
