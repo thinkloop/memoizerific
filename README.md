@@ -9,8 +9,8 @@ Made for the browser and nodejs. Uses JavaScript [Map()](https://developer.mozil
 
 Memoization is the process of caching function results, so that they can be returned cheaply
 without re-running the function when it is called again with the same arguments.
-This has become especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
-and the push to calculate all derived data on the fly, while maintaining the minimum state possible.
+This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
+and the push to calculate derived data on the fly to maintain minimal state.
 
 ## Install
 ```
