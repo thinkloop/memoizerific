@@ -42,6 +42,8 @@
     "browserify": "^13.0.0",
     "derequire": "^2.0.3",
     "jasmine": "^2.4.1",
-    "uglify-js": "^2.6.1"
+    "npm-check-updates": "^2.6.3",
+    "uglify-js": "^2.6.2",
+    "watch": "^0.17.1"
   }
 }
