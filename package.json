@@ -22,7 +22,7 @@
     "build:browserify": "browserify src/memoizerific.js --detectGlobals false --standalone memoizerific | derequire",
     "build:minify": "uglifyjs --compress drop_console,unused=false --mangle --screw-ie8",
     "build:gzip": "gzip --best -v -c",
-    "dist": "npm run build && git add --all && git commit -m 'build & publish' && npm version minor && git push && git push --tags && npm publish"
+    "prepublish": "npm run build && git add --all && git commit -m 'build & publish' && npm version minor && git push && git push --tags"
   },
   "keywords": [
     "memoize",
