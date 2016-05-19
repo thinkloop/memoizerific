@@ -1,14 +1,14 @@
 var Memoizerific = require('../src/memoizerific');
 
-describe("complex args", () => {
+describe("null args", () => {
 	var memoizedFn,
-		arg1 = { a: { b: 3 }, num: 3 },
-		arg2 = { c: { d: 3 }, num: 7 },
-		arg3 = [{ f: { g: 3 }, num: 11 }, { h: { i: 3 }, num: 4 }, { j: { k: 3 }, num: 6 }];
+		arg1 = null,
+		arg2 = undefined,
+		arg3 = NaN; // important to test since NaN does not equal NaN
 
 	beforeEach(function() {
 		memoizedFn = Memoizerific(50)(function(arg1, arg2, arg3) {
-			return arg1.num * arg2.num;
+			return '';
 		});
 		memoizedFn(arg1, arg2, arg3);
 	});
