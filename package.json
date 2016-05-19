@@ -15,14 +15,16 @@
   "main": "src/memoizerific",
   "scripts": {
     "test": "npm run -s test:map && npm run -s test:similar",
+    "build": "npm run -s build:browserify | tee memoizerific.js | npm run -s build:minify | tee memoizerific.min.js | npm run -s build:gzip > memoizerific.min.gzip.js",
+    "dist": "npm run build && git add --all && git commit -m \"build for publish\" && npm version patch && git push && git push --tags && npm publish",
+    "_": "",
     "test:map": "TEST_MAPORSIMILAR=false JASMINE_CONFIG_PATH=jasmine.json jasmine",
     "test:similar": "TEST_MAPORSIMILAR=true JASMINE_CONFIG_PATH=jasmine.json jasmine",
+    "__": "",
     "prebuild": "npm run -s test",
-    "build": "npm run -s build:browserify | tee memoizerific.js | npm run -s build:minify | tee memoizerific.min.js | npm run -s build:gzip > memoizerific.min.gzip.js",
     "build:browserify": "browserify src/memoizerific.js --detectGlobals false --standalone memoizerific | derequire",
     "build:minify": "uglifyjs --compress drop_console,unused=false --mangle --screw-ie8",
-    "build:gzip": "gzip --best -v -c",
-    "prepublish": "npm run build && git add --all && git commit -m \"build for publish\" && npm version patch && git push && git push --tags"
+    "build:gzip": "gzip --best -v -c"
   },
   "keywords": [
     "memoize",
