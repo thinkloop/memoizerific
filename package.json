@@ -1,6 +1,6 @@
 {
   "name": "memoizerific",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Fast, small, most-efficient JavaScript memoization lib to memoize JS functions",
   "author": "@thinkloop",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "build:browserify": "browserify src/memoizerific.js --detectGlobals false --standalone memoizerific | derequire",
     "build:minify": "uglifyjs --compress drop_console,unused=false --mangle --screw-ie8",
     "build:gzip": "gzip --best -v -c",
-    "prepublish": "npm run build && git add --all && git commit -m 'build & publish $npm_package_version' && npm version patch && git push && git push --tags"
+    "prepublish": "npm version patch --no-git-tag-version && npm run build && git add --all && git commit -m \"build & publish $npm_package_version\" && git push && git push --tags"
   },
   "keywords": [
     "memoize",
