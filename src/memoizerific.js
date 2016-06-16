@@ -21,7 +21,8 @@ module.exports = function (limit) {
 					arg: arguments[i]
 				};
 
-				// if all arguments exist in map tree, the memoized result will be last value to be retrieved
+				// keep climbing through the hierarchical map tree until the second-last argument has been found, or an argument is missing
+				// if all arguments minus one exist, then this will potentially be a memoization cache hit (determined subsequently)
 				if (currentCache.has(arguments[i])) {
 					currentCache = currentCache.get(arguments[i]);
 					continue;
