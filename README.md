@@ -2,10 +2,13 @@
 [![Build Status](https://travis-ci.org/thinkloop/memoizerific.svg?branch=master)](https://travis-ci.org/thinkloop/memoizerific)
 
 Fast (see benchmarks), small (1k min/gzip), efficient, JavaScript memoization lib to memoize JS functions.
-Fully supports multiple complex object arguments.
-Implements LRU caching (least recently used caching) to maintain only the most recent results.
 
-Made for the browser and nodejs. Uses JavaScript [Map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) for instant object lookups, or a [performant polyfill](https://github.com/thinkloop/map-or-similar) if Map is not available - does not do serialization or string manipulation.
+Uses JavaScript's new [Map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) object for instant lookups, or a [performant polyfill](https://github.com/thinkloop/map-or-similar) if Map is not available - does not do expensive serialization or string manipulation.
+
+Fully supports multiple complex arguments.
+Implements least recently used (LRU) caching to maintain only the most recent results.
+
+Made for the browser and nodejs.
 
 Memoization is the process of caching function results, so that they can be returned cheaply
 without re-running the function when it is called again with the same arguments.
@@ -13,11 +16,13 @@ This is especially useful with the rise of [redux-philosophy](https://github.com
 and the push to calculate derived data on the fly to maintain minimal state.
 
 ## Install
+Add to your project directly from npm:
+
 ```
 npm install memoizerific --save
 ```
 
-Or use one of the compiled distributions compatible in any environment (umd):
+Or use one of the compiled distributions compatible in any environment (UMD):
 
 - [memoizerific.js](https://raw.githubusercontent.com/thinkloop/memoizerific/master/memoizerific.js)
 - [memoizerific.min.js](https://raw.githubusercontent.com/thinkloop/memoizerific/master/memoizerific.min.js) (minified)
@@ -57,9 +62,9 @@ There is one option available:
 ```javascript
 memoizerific(limit)(fn);
 
-memoizerific(1)(function(){}); // memoize 1 result
-memoizerific(10000)(function(){}); // memoize 10,000 results
-memoizerific(0)(function(){}); // memoize infinity results (not recommended)
+memoizerific(1)(function(arg1){}); // memoize the last result
+memoizerific(10000)(function(arg1, arg2){}); // memoize the last 10,000 unique argument combinations
+memoizerific(0)(function(arg1){}); // memoize infinity results (not recommended)
 ```
 The cache works using LRU logic, purging the least recently used results when the limit is reached.
 For example:
