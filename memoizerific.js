@@ -126,6 +126,10 @@ module.exports = function (limit) {
 				isMemoized = true,
 				i;
 
+			if ((memoizerific.numArgs || memoizerific.numArgs === 0) && memoizerific.numArgs !== argsLengthMinusOne + 1) {
+				throw new Error('Memoizerific functions should always be called with the same number of arguments');
+			}
+
 			// loop through each argument to traverse the map tree
 			for (i = 0; i < argsLengthMinusOne; i++) {
 				lruPath[i] = {
@@ -133,7 +137,8 @@ module.exports = function (limit) {
 					arg: arguments[i]
 				};
 
-				// if all arguments exist in map tree, the memoized result will be last value to be retrieved
+				// climb through the hierarchical map tree until the second-last argument has been found, or an argument is missing.
+				// if all arguments up to the second-last have been found, this will potentially be a cache hit (determined below)
 				if (currentCache.has(arguments[i])) {
 					currentCache = currentCache.get(arguments[i]);
 					continue;
@@ -181,6 +186,7 @@ module.exports = function (limit) {
 			}
 
 			memoizerific.wasMemoized = isMemoized;
+			memoizerific.numArgs = argsLengthMinusOne + 1;
 
 			return fnResult;
 		};
