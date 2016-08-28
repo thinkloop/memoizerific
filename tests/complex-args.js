@@ -39,7 +39,8 @@ describe("complex args", () => {
 	it("should have multiple cached items", () => {
 		memoizedFn(arg1, arg2, arg3, arg4, arg5);
 		memoizedFn(arg1, arg2, 1, arg4, arg5);
+		memoizedFn(arg1, arg2, arg3, arg4, new BigNumber("3.1415", 10));
 		expect(memoizedFn.wasMemoized).toEqual(false);
-		expect(memoizedFn.lru.length).toEqual(2);
+		expect(memoizedFn.lru.length).toEqual(3);
 	});
 });
