@@ -41,6 +41,7 @@
     "map-or-similar": "^1.2.3"
   },
   "devDependencies": {
+    "bignumber.js": "^2.4.0",
     "browserify": "^13.0.1",
     "derequire": "^2.0.3",
     "jasmine": "^2.4.1",
