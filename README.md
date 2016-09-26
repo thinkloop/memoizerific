@@ -173,18 +173,15 @@ Approx. Cache Hits (variance) : How varied the passed in arguments are. If the e
 ##### Results
 
 The results from the tests are interesting.
-While LRU-Memoize performed quite well with few arguments and lots of cache hits, it quickly started to fall apart as the environment became more challenging.
-At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems.
-I would not recommend it for heavy production use.
+While LRU-Memoize performed well with few arguments and lots of cache hits, it quickly degraded as the environment became more challenging. At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
-In most scenarios this will not be very noticeable. In other, especially demanding ones,
-such as memoizing in a loop, or through a long recursion chain, it might be.
-Importantly though, it degraded very gracefully, and remained within sub 1s levels almost all the time.
-Memoizee is a sturdy, well-built library that I would recommend for production use.
+In most scenarios this will not be very noticeable, in others, like memoizing in a loop, 
+or recursively, it might be. Importantly though, it degraded gracefully, and remained within 
+sub 1s levels almost all the time. Memoizee is acceptable for production use. 
 
-Memoizerific was the performance winner. It is built with complex real-world use in mind.
-I would, of course, recommend it for serious production use.
+Memoizerific was the top winner. It was fastest in all tests except one. It was built with 
+complex real-world use in mind, and I would recommend it for production.
 
 ## License
 
