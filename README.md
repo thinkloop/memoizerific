@@ -11,7 +11,7 @@ Implements least recently used (LRU) caching to maintain only the most recent re
 Made for the browser and nodejs.
 
 Memoization is the process of caching function results, so that they can be returned cheaply
-without re-running the function when it is called again with the same arguments.
+without re-execution, if the function is called again with the same arguments.
 This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
 and the push to calculate derived data on the fly to maintain minimal state.
 
