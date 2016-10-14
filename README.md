@@ -193,8 +193,8 @@ Released under an MIT license.
 - [Multi Key Cache](https://github.com/thinkloop/multi-key-cache): A JavaScript (JS) cache that can have multiple complex values as keys.
 
 ## Other
-- [todo-app](https://github.com/thinkloop/todo-app/)
-- [link-react](https://github.com/thinkloop/link-react/)
-- [spa-webserver](https://github.com/thinkloop/spa-webserver/)
+- [todo-app](https://github.com/thinkloop/todo-app/): Example todo app of extreme decoupling of react, redux and selectors
+- [link-react](https://github.com/thinkloop/link-react/): A generalized link <a> component that allows client-side navigation while taking into account exceptions
+- [spa-webserver](https://github.com/thinkloop/spa-webserver/): Webserver that redirects to root index.html if path is missing for client-side SPA navigation
 
 ## Like it? Star It
