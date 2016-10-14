@@ -187,9 +187,14 @@ complex real-world use in mind, and I would recommend it for production.
 
 Released under an MIT license.
 
-### Other Libs
+## Related
 
 - [Map or Similar](https://github.com/thinkloop/map-or-similar): A JavaScript (JS) Map or Similar object polyfill if Map is not available.
 - [Multi Key Cache](https://github.com/thinkloop/multi-key-cache): A JavaScript (JS) cache that can have multiple complex values as keys.
 
-### Like it? Star It
+## Other
+- [todo-app](https://github.com/thinkloop/todo-app/)
+- [link-react](https://github.com/thinkloop/link-react/)
+- [spa-webserver](https://github.com/thinkloop/spa-webserver/)
+
+## Like it? Star It
