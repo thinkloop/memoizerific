@@ -197,4 +197,4 @@ Released under an MIT license.
 - [link-react](https://github.com/thinkloop/link-react/): A generalized link <a> component that allows client-side navigation while taking into account exceptions
 - [spa-webserver](https://github.com/thinkloop/spa-webserver/): Webserver that redirects to root index.html if path is missing for client-side SPA navigation
 
-## Like it? Star It
+Like it? Star It
