@@ -36,3 +36,4 @@ describe("complex args", () => {
 		expect(memoizedFn.lru.length).toEqual(2);
 	});
 });
+
