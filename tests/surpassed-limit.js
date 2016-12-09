@@ -13,7 +13,7 @@ describe("surpassed limit", () => {
 		memoizedFn(arg1, arg2, arg3);
 	});
 
-	it("should be map or similar", () => { expect(memoizedFn.cache instanceof Map).toEqual(process.env.TEST_MAPORSIMILAR !== 'true'); });
+	it("should be map or similar", () => { expect(memoizedFn.cache instanceof Map).toEqual(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP !== 'true') });
 
 	it("should replace original memoized", () => {
 		memoizedFn(arg1, arg2, arg3);

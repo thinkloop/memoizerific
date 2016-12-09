@@ -1,7 +1,7 @@
 var MapOrSimilar = require('map-or-similar');
 
 module.exports = function (limit) {
-	var cache = new MapOrSimilar(),
+	var cache = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true'),
 		lru = [];
 
 	return function (fn) {
@@ -26,7 +26,7 @@ module.exports = function (limit) {
 				};
 
 				// climb through the hierarchical map tree until the second-last argument has been found, or an argument is missing.
-				// if all arguments up to the second-last have been found, this will potentially be a cache hit (determined below)
+				// if all arguments up to the second-last have been found, this will potentially be a cache hit (determined later)
 				if (currentCache.has(arguments[i])) {
 					currentCache = currentCache.get(arguments[i]);
 					continue;
@@ -35,7 +35,7 @@ module.exports = function (limit) {
 				isMemoized = false;
 
 				// make maps until last value
-				newMap = new MapOrSimilar();
+				newMap = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true');
 				currentCache.set(arguments[i], newMap);
 				currentCache = newMap;
 			}

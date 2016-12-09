@@ -37,7 +37,7 @@ describe("fibonacci", () => {
 
 	ratioDifference = ((fibonacciTime[0] * 1000000000) + fibonacciTime[1]) / ((fibonacciMemoizedTime[0] * 1000000000) + fibonacciMemoizedTime[1]);
 
-	it("should be map or similar", () => { expect(fibonacciMemoized.cache instanceof Map).toEqual(process.env.TEST_MAPORSIMILAR !== 'true'); });
+	it("should be map or similar", () => { expect(fibonacciMemoized.cache instanceof Map).toEqual(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP !== 'true'); });
 	it("should equal non-memoized result", () => { expect(fibonacciResult).toEqual(fibonacciMemoizedResult); });
 	it("should have proper lru length", () => { expect(fibonacciMemoized.lru.length).toEqual(41); });
 	it("should be at least 10x faster", () => { expect(ratioDifference).toBeGreaterThan(10); });
