@@ -1,6 +1,6 @@
 {
   "name": "memoizerific",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "Fast, small, efficient JavaScript memoization lib to memoize JS functions",
   "author": "Baz <baz@thinkloop.com>",
   "license": "MIT",
