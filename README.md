@@ -45,10 +45,10 @@ myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap
 ```
 Or with complex arguments:
 ```javascript
-var complexArg1 = { a: { b: { c: 99 }}},
-    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}],
-    complexArg3 = new Map([['d', 55],['e', 66]]),
-    complexArg4 = new Set();
+var complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
+    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // objects within arrays within arrays
+    complexArg3 = new Map([['d', 55],['e', 66]]), // new Map object
+    complexArg4 = new Set(); // new Set object
 
 myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
 myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
