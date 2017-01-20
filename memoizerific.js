@@ -1,7 +1,119 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.memoizerific = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-!function(t){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var i;i="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,i.mapOrSimilar=t()}}(function(){var t,i,e;return function t(i,e,s){function n(o,l){if(!e[o]){if(!i[o]){var a="function"==typeof _dereq_&&_dereq_;if(!l&&a)return a(o,!0);if(r)return r(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var h=e[o]={exports:{}};i[o][0].call(h.exports,function(t){var e=i[o][1][t];return n(e?e:t)},h,h.exports,t,i,e,s)}return e[o].exports}for(var r="function"==typeof _dereq_&&_dereq_,o=0;o<s.length;o++)n(s[o]);return n}({1:[function(t,i,e){i.exports=function(i){if("function"!=typeof Map||i){var e=t("./similar");return new e}return new Map}},{"./similar":2}],2:[function(t,i,e){function s(){return this.list=[],this.lastItem=void 0,this.size=0,this}s.prototype.get=function(t){var i;return this.lastItem&&this.isEqual(this.lastItem.key,t)?this.lastItem.val:(i=this.indexOf(t),i>=0?(this.lastItem=this.list[i],this.list[i].val):void 0)},s.prototype.set=function(t,i){var e;return this.lastItem&&this.isEqual(this.lastItem.key,t)?(this.lastItem.val=i,this):(e=this.indexOf(t),e>=0?(this.lastItem=this.list[e],this.list[e].val=i,this):(this.lastItem={key:t,val:i},this.list.push(this.lastItem),this.size++,this))},s.prototype.delete=function(t){var i;if(this.lastItem&&this.isEqual(this.lastItem.key,t)&&(this.lastItem=void 0),i=this.indexOf(t),i>=0)return this.size--,this.list.splice(i,1)[0]},s.prototype.has=function(t){var i;return!(!this.lastItem||!this.isEqual(this.lastItem.key,t))||(i=this.indexOf(t),i>=0&&(this.lastItem=this.list[i],!0))},s.prototype.forEach=function(t,i){var e;for(e=0;e<this.size;e++)t.call(i||this,this.list[e].val,this.list[e].key,this)},s.prototype.indexOf=function(t){var i;for(i=0;i<this.size;i++)if(this.isEqual(this.list[i].key,t))return i;return-1},s.prototype.isEqual=function(t,i){return t===i||t!==t&&i!==i},i.exports=s},{}]},{},[1])(1)});
+module.exports = function(forceSimilar) {
+	if (typeof Map !== 'function' || forceSimilar) {
+		var Similar = _dereq_('./similar');
+		return new Similar();
+	}
+	else {
+		return new Map();
+	}
+}
 
-},{}],2:[function(_dereq_,module,exports){
+},{"./similar":2}],2:[function(_dereq_,module,exports){
+function Similar() {
+	this.list = [];
+	this.lastItem = undefined;
+	this.size = 0;
+
+	return this;
+}
+
+Similar.prototype.get = function(key) {
+	var index;
+
+	if (this.lastItem && this.isEqual(this.lastItem.key, key)) {
+		return this.lastItem.val;
+	}
+
+	index = this.indexOf(key);
+	if (index >= 0) {
+		this.lastItem = this.list[index];
+		return this.list[index].val;
+	}
+
+	return undefined;
+};
+
+Similar.prototype.set = function(key, val) {
+	var index;
+
+	if (this.lastItem && this.isEqual(this.lastItem.key, key)) {
+		this.lastItem.val = val;
+		return this;
+	}
+
+	index = this.indexOf(key);
+	if (index >= 0) {
+		this.lastItem = this.list[index];
+		this.list[index].val = val;
+		return this;
+	}
+
+	this.lastItem = { key: key, val: val };
+	this.list.push(this.lastItem);
+	this.size++;
+
+	return this;
+};
+
+Similar.prototype.delete = function(key) {
+	var index;
+
+	if (this.lastItem && this.isEqual(this.lastItem.key, key)) {
+		this.lastItem = undefined;
+	}
+
+	index = this.indexOf(key);
+	if (index >= 0) {
+		this.size--;
+		return this.list.splice(index, 1)[0];
+	}
+
+	return undefined;
+};
+
+
+// important that has() doesn't use get() in case an existing key has a falsy value, in which case has() would return false
+Similar.prototype.has = function(key) {
+	var index;
+
+	if (this.lastItem && this.isEqual(this.lastItem.key, key)) {
+		return true;
+	}
+
+	index = this.indexOf(key);
+	if (index >= 0) {
+		this.lastItem = this.list[index];
+		return true;
+	}
+
+	return false;
+};
+
+Similar.prototype.forEach = function(callback, thisArg) {
+	var i;
+	for (i = 0; i < this.size; i++) {
+		callback.call(thisArg || this, this.list[i].val, this.list[i].key, this);
+	}
+};
+
+Similar.prototype.indexOf = function(key) {
+	var i;
+	for (i = 0; i < this.size; i++) {
+		if (this.isEqual(this.list[i].key, key)) {
+			return i;
+		}
+	}
+	return -1;
+};
+
+// check if the numbers are equal, or whether they are both precisely NaN (isNaN returns true for all non-numbers)
+Similar.prototype.isEqual = function(val1, val2) {
+	return val1 === val2 || (val1 !== val1 && val2 !== val2);
+};
+
+module.exports = Similar;
+},{}],3:[function(_dereq_,module,exports){
 var MapOrSimilar = _dereq_('map-or-similar');
 
 module.exports = function (limit) {
@@ -141,5 +253,5 @@ function removeCachedResult(removedLru) {
 function isEqual(val1, val2) {
 	return val1 === val2 || (val1 !== val1 && val2 !== val2);
 }
-},{"map-or-similar":1}]},{},[2])(2)
+},{"map-or-similar":1}]},{},[3])(3)
 });

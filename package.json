@@ -23,11 +23,11 @@
   "bugs": {
     "url": "https://github.com/thinkloop/memoizerific/issues"
   },
-  "main": "./memoizerific",
+  "main": "./src/memoizerific.js",
   "scripts": {
     "test": "echo '****************'`date +%r`'********************' && npm run -s test:map && npm run -s test:similar",
     "build": "npm run -s build:all",
-    "publish_to_npm": "npm run -s build:all && git add --all && git commit -m \"build for publish\" && npm version patch && git push && git push --tags && npm publish",
+    "publish_to_npm": "npm version minor && git push && git push --tags && npm publish",
     "_": "",
     "test:map": "FORCE_SIMILAR_INSTEAD_OF_MAP=false JASMINE_CONFIG_PATH=./jasmine.json jasmine",
     "test:similar": "FORCE_SIMILAR_INSTEAD_OF_MAP=true JASMINE_CONFIG_PATH=./jasmine.json jasmine",
@@ -38,13 +38,13 @@
     "build:gzip": "gzip --best -v -c"
   },
   "dependencies": {
-    "map-or-similar": "^1.3.0"
+    "map-or-similar": "^1.4.0"
   },
   "devDependencies": {
-    "browserify": "13.1.1",
-    "derequire": "2.0.3",
+    "browserify": "13.3.0",
+    "derequire": "2.0.6",
     "envify": "4.0.0",
-    "jasmine": "2.5.2",
+    "jasmine": "2.5.3",
     "uglify-js": "2.7.5",
     "watch": "1.0.1"
   }
