@@ -11,7 +11,7 @@ Implements least recently used (LRU) caching to maintain only the most recent re
 Made for the browser and nodejs.
 
 Memoization is the process of caching function results, so that they can be returned cheaply
-without re-execution, if the function is called again with the same arguments.
+without re-execution when the function is called again with the same arguments.
 This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
 and the push to calculate derived data on the fly to maintain minimal state.
 
@@ -176,11 +176,11 @@ The results from the tests are interesting.
 While LRU-Memoize performed well with few arguments and lots of cache hits, it quickly degraded as the environment became more challenging. At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
-In most scenarios this will not be very noticeable, in others, like memoizing in a loop, 
-or recursively, it might be. Importantly though, it degraded gracefully, and remained within 
-sub 1s levels almost all the time. Memoizee is acceptable for production use. 
+In most scenarios this will not be very noticeable, in others, like memoizing in a loop,
+or recursively, it might be. Importantly though, it degraded gracefully, and remained within
+sub 1s levels almost all the time. Memoizee is acceptable for production use.
 
-Memoizerific was the top winner. It was fastest in all tests except one. It was built with 
+Memoizerific was the top winner. It was fastest in all tests except one. It was built with
 complex real-world use in mind, and I would recommend it for production.
 
 ## License
