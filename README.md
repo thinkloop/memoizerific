@@ -37,10 +37,11 @@ var myExpensiveFunctionMemoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // so many long expensive calls in here
 });
 
-myExpensiveFunctionMemoized(1, 2, 3); // that took looooong to process
+myExpensiveFunctionMemoized(1, 2, 3); // that took long to process
 myExpensiveFunctionMemoized(1, 2, 3); // wow, that one was instant!
+
 myExpensiveFunctionMemoized(2, 3, 4); // expensive again :(
-myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
+myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap
 ```
 Or with complex arguments:
 ```javascript
