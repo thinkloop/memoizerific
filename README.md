@@ -63,7 +63,7 @@ There is one option available:
 ```javascript
 memoizerific(limit)(fn);
 
-memoizerific(1)(function(arg1){}); // memoize the last result
+memoizerific(1)(function(arg1){}); // memoize the last result for a given argument
 memoizerific(10000)(function(arg1, arg2){}); // memoize the last 10,000 unique argument combinations
 memoizerific(0)(function(arg1){}); // memoize infinity results (not recommended)
 ```
