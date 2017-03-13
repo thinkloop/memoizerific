@@ -11,7 +11,7 @@ Implements least recently used (LRU) caching to maintain only the most recent re
 Made for the browser and nodejs.
 
 Memoization is the process of caching function results, so that they can be returned cheaply
-without re-execution, if the function is called again with the same arguments.
+without re-execution when the function is called again with the same arguments.
 This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
 and the push to calculate derived data on the fly to maintain minimal state.
 
@@ -37,17 +37,18 @@ var myExpensiveFunctionMemoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // so many long expensive calls in here
 });
 
-myExpensiveFunctionMemoized(1, 2, 3); // that took looooong to process
+myExpensiveFunctionMemoized(1, 2, 3); // that took long to process
 myExpensiveFunctionMemoized(1, 2, 3); // wow, that one was instant!
+
 myExpensiveFunctionMemoized(2, 3, 4); // expensive again :(
-myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap, I'll take 2!
+myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap
 ```
 Or with complex arguments:
 ```javascript
-var complexArg1 = { a: { b: { c: 99 }}},
-    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}],
-    complexArg3 = new Map([['d', 55],['e', 66]]),
-    complexArg4 = new Set();
+var complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
+    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // objects within arrays within arrays
+    complexArg3 = new Map([['d', 55],['e', 66]]), // new Map object
+    complexArg4 = new Set(); // new Set object
 
 myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
 myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
@@ -62,7 +63,7 @@ There is one option available:
 ```javascript
 memoizerific(limit)(fn);
 
-memoizerific(1)(function(arg1){}); // memoize the last result
+memoizerific(1)(function(arg1){}); // memoize the last result for a given argument
 memoizerific(10000)(function(arg1, arg2){}); // memoize the last 10,000 unique argument combinations
 memoizerific(0)(function(arg1){}); // memoize infinity results (not recommended)
 ```
@@ -71,13 +72,13 @@ For example:
 
 ```javascript
 // memoize 1 result
-var myMemoized = memoizerific(1)(function(arg1, arg2, arg3, arg4) {});
+var myMemoized = memoizerific(1)(function(arg1) {});
 
-myMemoized(1, 2, 3, 'a'); // function runs, result is cached
-myMemoized(1, 2, 3, 'a'); // cached result is returned
-myMemoized(1, 2, 3, 'X'); // function runs again, new result is cached, old cached result is purged
-myMemoized(1, 2, 3, 'X'); // new cached result is returned
-myMemoized(1, 2, 3, 'a'); // function runs again...
+myMemoized(1); // function runs, result is cached
+myMemoized(1); // cached result is returned
+myMemoized(2); // function runs again, new result is cached, old cached result is purged
+myMemoized(2); // new cached result is returned
+myMemoized(1); // function runs again...
 ```
 
 ## Internals
@@ -176,12 +177,12 @@ The results from the tests are interesting.
 While LRU-Memoize performed well with few arguments and lots of cache hits, it quickly degraded as the environment became more challenging. At 4+ arguments, it was 5x-10x-20x slower than the other contenders, and began to hit severe performance issues that could potentially cause real-world problems. I would not recommend it for heavy production use.
 
 Memoizee came in a solid second place, around 31% less performant than Memoizerific.
-In most scenarios this will not be very noticeable, in others, like memoizing in a loop, 
-or recursively, it might be. Importantly though, it degraded gracefully, and remained within 
-sub 1s levels almost all the time. Memoizee is acceptable for production use. 
+In most scenarios this will not be very noticeable, in others, like memoizing in a loop,
+or recursively, it might be. Importantly though, it degraded gracefully, and remained within
+sub 1s levels almost all the time. Memoizee is acceptable for production use.
 
-Memoizerific was the top winner. It was fastest in all tests except one. It was built with 
-complex real-world use in mind, and I would recommend it for production.
+Memoizerific was fastest in all tests except one. It was built for production with
+complex real-world use in mind.
 
 ## License
 

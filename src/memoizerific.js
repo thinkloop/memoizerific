@@ -50,11 +50,13 @@ module.exports = function (limit) {
 				}
 			}
 
+			// if the result wasn't memoized, compute it and cache it
 			if (!isMemoized) {
 				fnResult = fn.apply(null, arguments);
 				currentCache.set(arguments[argsLengthMinusOne], fnResult);
 			}
 
+			// if there is a cache limit, purge any extra results
 			if (limit > 0) {
 				lruPath[argsLengthMinusOne] = {
 					cacheItem: currentCache,
