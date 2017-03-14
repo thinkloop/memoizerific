@@ -96,7 +96,7 @@ myMemoized({ a: true }); // not cached, runs again
 
 ```
 
-This is because a new object is being created on each invocation, rather than the same object passed in.
+This is because a new object is being created on each invocation, rather than the same object being passed in.
 To _fix_ it, the argument can be saved in a common variable:
 
 ```javascript
