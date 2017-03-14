@@ -28,7 +28,7 @@
   "scripts": {
     "test": "echo '****************'`date +%r`'********************' && npm run -s test:map && npm run -s test:similar",
     "build": "npm run -s build:all",
-    "publish_to_npm": "npm version minor && git push && git push --tags && npm publish",
+    "publish_to_npm": "npm version patch && git push && git push --tags && npm publish",
     "_": "",
     "test:map": "FORCE_SIMILAR_INSTEAD_OF_MAP=false JASMINE_CONFIG_PATH=./jasmine.json jasmine",
     "test:similar": "FORCE_SIMILAR_INSTEAD_OF_MAP=true JASMINE_CONFIG_PATH=./jasmine.json jasmine",
