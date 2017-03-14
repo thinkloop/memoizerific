@@ -111,7 +111,7 @@ myMemoized(arg); // cache hit!
 
 There is an [open issue](https://github.com/thinkloop/memoizerific/issues/10)
 to add an option to memoizerific to allow for custom comparison functions.
-If you would find that useful please +1 it so I can gauge interest.
+If you find that useful please +1 [the issue](https://github.com/thinkloop/memoizerific/issues/10).
 
 
 ## Internals
