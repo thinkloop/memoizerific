@@ -151,7 +151,9 @@ Others support multiple complex arguments, but do not offer mechanisms to manage
 Three libs with reasonable traction seem to meet the basic criteria:
 
 :heavy_check_mark: [Memoizee](https://github.com/medikoo/memoizee) (@medikoo)
+
 :heavy_check_mark: [LRU-Memoize](https://github.com/erikras/lru-memoize) (@erikras)
+
 :heavy_check_mark: ~~[LRU-Memoize](https://github.com/neilk/lru-memoize) (@neilk)~~
 
 After some quick testing, however, we found the last library produced incorrect results, leaving only two viable candidates.
