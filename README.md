@@ -140,13 +140,13 @@ Using this list, we can narrow down the field of possible candidates quite a bit
 The popular [lodash memoize](https://lodash.com/docs#memoize), for example, only supports one argument out of the box and has no cache control.
 Others support multiple complex arguments, but do not offer mechanisms to manage the cache-size:
 
-- :heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani)
+` `:heavy_multiplication_x: [Memoizejs](https://github.com/addyosmani/memoize.js) (@addyosmani)
 
-- :heavy_multiplication_x: [Memoize-strict](https://github.com/jshanson7/memoize-strict) (@jshanson7)
+` `:heavy_multiplication_x: [Memoize-strict](https://github.com/jshanson7/memoize-strict) (@jshanson7)
 
-- :heavy_multiplication_x: [Deep-memoize](https://github.com/rjmk/deep-memoize) (@rjmk)
+` `:heavy_multiplication_x: [Deep-memoize](https://github.com/rjmk/deep-memoize) (@rjmk)
 
-- :heavy_multiplication_x: [Mem](https://github.com/sindresorhus/mem) (@sindresorhus)
+` `:heavy_multiplication_x: [Mem](https://github.com/sindresorhus/mem) (@sindresorhus)
 
 Three libs with reasonable traction seem to meet the basic criteria:
 
@@ -154,9 +154,7 @@ Three libs with reasonable traction seem to meet the basic criteria:
 - [LRU-Memoize](https://github.com/erikras/lru-memoize) (@erikras)
 - ~~[LRU-Memoize](https://github.com/neilk/lru-memoize) (@neilk)~~
 
-After some quick testing, however, we found the library by @neilk to be producing incorrect results, leaving only two viable candidates.
-
-Time to test performance.
+After some quick testing, however, we found the last library produced incorrect results, leaving only two viable candidates.
 
 ## Benchmarks
 
