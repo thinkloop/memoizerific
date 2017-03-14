@@ -81,7 +81,7 @@ myMemoized(2); // new cached result is returned
 myMemoized(1); // function runs again...
 ```
 
-## Strict Equality
+## Equality
 Arguments are compared using strict equality.
 A complex object will only trigger a cache hit if it refers to the exact same object in memory,
 not just another object that has similar properties.
@@ -97,7 +97,7 @@ myMemoized({ a: true }); // not cached, runs again
 ```
 
 This is because a new object is being created on each invocation, rather than the same object being passed in.
-To _fix_ it, the argument can be saved in a common variable:
+To _fix_ this, the argument can be saved in a common variable:
 
 ```javascript
 // memoize 1 result
@@ -126,7 +126,7 @@ memoizedFn.lru         : The lru object that stores the most recent arguments ca
 
 ```
 
-## Comparison
+## Compared
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
 Following are the minimum criteria I look for in a production-worthy memoization solution:
