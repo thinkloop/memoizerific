@@ -84,8 +84,8 @@ myMemoized(1); // function runs again...
 ## Strict Equality
 Arguments are compared using strict equality.
 A complex object will only trigger a cache hit if it refers to the exact same object in memory,
-not just any object that has the same properties.
-For example in the following code, there won't be a cache hit even though the objects have the same structure:
+not just another object that has similar properties.
+For example, the following code won't produce a cache hit even though the objects look the same:
 
 ```javascript
 // memoize 1 result
@@ -96,8 +96,8 @@ myMemoized({ a: true }); // not cached, runs again
 
 ```
 
-This is because a new object is being created on each invocation, rather than the same object being referred to.
-To _fix_ it, the object can be saved in a common variable:
+This is because a new object is being created on each invocation, rather than the same object passed in.
+To _fix_ it, the argument can be saved in a common variable:
 
 ```javascript
 // memoize 1 result
