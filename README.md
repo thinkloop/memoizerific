@@ -81,6 +81,39 @@ myMemoized(2); // new cached result is returned
 myMemoized(1); // function runs again...
 ```
 
+## Strict Equality
+Arguments are compared using strict equality.
+A complex object will only trigger a cache hit if it refers to the exact same object in memory,
+not just any object that has the same properties.
+For example in the following code, there won't be a cache hit even though the objects have the same structure:
+
+```javascript
+// memoize 1 result
+var myMemoized = memoizerific(1)(function(arg1) {});
+
+myMemoized({ a: true }); // function runs
+myMemoized({ a: true }); // not cached, runs again
+
+```
+
+This is because a new object is being created on each invocation, rather than the same object being referred to.
+To _fix_ it, the object can be saved in a common variable:
+
+```javascript
+// memoize 1 result
+var myMemoized = memoizerific(1)(function(arg1) {});
+var arg = { a: true };
+
+myMemoized(arg); // function runs
+myMemoized(arg); // cache hit!
+
+```
+
+There is an [open issue](https://github.com/thinkloop/memoizerific/issues/10)
+to add an option to memoizerific to allow for custom comparison functions.
+If you would find that useful please +1 it so I can gauge interest.
+
+
 ## Internals
 The internals of the memoized function are available for introspection.
 They should not be manipulated directly, but can be useful to read.
