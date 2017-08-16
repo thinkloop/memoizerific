@@ -1,8 +1,12 @@
 var MapOrSimilar = require('map-or-similar');
 
-module.exports = function (limit, normalizerFn = obj => obj) {
+module.exports = function (limit, normalizerFn) {
 	var cache = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true'),
 		lru = [];
+
+  if (normalizerFn === undefined) {
+    normalizerFn = function (obj) { return obj; };
+  }
 
 	return function (fn) {
 		var memoizerific = function () {
