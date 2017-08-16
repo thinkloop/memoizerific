@@ -1,35 +1,34 @@
 var Memoizerific = require('../src/memoizerific');
 
-describe("null args", () => {
-	var memoizedFn,
-		arg1 = null,
-		arg2 = undefined,
-		arg3 = NaN; // important to test since NaN does not equal NaN
+describe("custom normalizer", () => {
+	var memoizedFn;
 
-	beforeEach(function() {
-		memoizedFn = Memoizerific(50)(function(arg1, arg2, arg3) {
-			return '';
-		});
-		memoizedFn(arg1, arg2, arg3);
-	});
+	it("should always be memoized", () => {
+    var memoizedFn =
+      Memoizerific(100, function () { return true; })
+      (function (obj) { return obj; });
 
-	it("should be map or similar", () => { expect(memoizedFn.cache instanceof Map).toEqual(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP !== 'true'); });
+    memoizedFn({a: 1});
 
-	it("should not be memoized", () => {
-		expect(memoizedFn.wasMemoized).toEqual(false);
-		expect(memoizedFn.lru.length).toEqual(1);
-	});
-
-	it("should be memoized", () => {
-		memoizedFn(arg1, arg2, arg3);
+    memoizedFn(1);
 		expect(memoizedFn.wasMemoized).toEqual(true);
-		expect(memoizedFn.lru.length).toEqual(1);
+    memoizedFn([1, 2, 3]);
+		expect(memoizedFn.wasMemoized).toEqual(true);
 	});
 
-	it("should have multiple cached items", () => {
-		memoizedFn(arg1, arg2, arg3);
-		memoizedFn(arg1, arg2, 1);
+	it("should be memoized based on custom function", () => {
+    var memoizedFn =
+      Memoizerific(100, function (i) { return i % 2; })
+      (function (obj) { return obj; });
+
+    memoizedFn(1);
+    memoizedFn(3);
+		expect(memoizedFn.wasMemoized).toEqual(true);
+
+    memoizedFn(2);
 		expect(memoizedFn.wasMemoized).toEqual(false);
-		expect(memoizedFn.lru.length).toEqual(2);
+
+    memoizedFn(4);
+		expect(memoizedFn.wasMemoized).toEqual(true);
 	});
 });
