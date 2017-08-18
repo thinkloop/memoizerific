@@ -4,10 +4,6 @@ module.exports = function (limit, normalizerFn) {
 	var cache = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true'),
 		lru = [];
 
-  if (normalizerFn === undefined) {
-    normalizerFn = function (obj) { return obj; };
-  }
-
 	return function (fn) {
 		var memoizerific = function () {
 			var currentCache = cache,
@@ -16,6 +12,7 @@ module.exports = function (limit, normalizerFn) {
 				argsLengthMinusOne = arguments.length - 1,
 				lruPath = Array(argsLengthMinusOne + 1),
 				isMemoized = true,
+				key,
 				i;
 
 			if ((memoizerific.numArgs || memoizerific.numArgs === 0) && memoizerific.numArgs !== argsLengthMinusOne + 1) {
@@ -24,7 +21,7 @@ module.exports = function (limit, normalizerFn) {
 
 			// loop through each argument to traverse the map tree
 			for (i = 0; i < argsLengthMinusOne; i++) {
-				var key = normalizerFn(arguments[i]);
+				key = normalizerFn ? normalizerFn(arguments[i]) : arguments[i];
 				lruPath[i] = {
 					cacheItem: currentCache,
 					arg: key
@@ -45,8 +42,8 @@ module.exports = function (limit, normalizerFn) {
 				currentCache = newMap;
 			}
 
-			var key = normalizerFn(arguments[argsLengthMinusOne]);
 			// we are at the last arg, check if it is really memoized
+			key = normalizerFn ? normalizerFn(arguments[argsLengthMinusOne]) : arguments[argsLengthMinusOne];
 			if (isMemoized) {
 				if (currentCache.has(key)) {
 					fnResult = currentCache.get(key);
