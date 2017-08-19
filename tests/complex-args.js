@@ -14,13 +14,39 @@ describe("complex args", () => {
 	});
 
 	it("should be map or similar", () => {
-		console.log('FORCE_SIMILAR_INSTEAD_OF_MAP:', process.env.FORCE_SIMILAR_INSTEAD_OF_MAP);
+		console.log(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true' ? 'SIMILAR() to MAP()' : 'MAP()');
 		expect(memoizedFn.cache instanceof Map).toEqual(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP !== 'true');
 	});
 
 	it("should not be memoized", () => {
+		memoizedFn = Memoizerific(50)(function(arg1) {
+			return arg1;
+		});
+
+		memoizedFn(arg1);
 		expect(memoizedFn.wasMemoized).toEqual(false);
-		expect(memoizedFn.lru.length).toEqual(1);
+
+		var a1 = { a: 1};
+
+		memoizedFn(a1);
+		expect(memoizedFn.wasMemoized).toEqual(false);
+
+		memoizedFn(a1);
+		expect(memoizedFn.wasMemoized).toEqual(true);
+
+		memoizedFn({ a: 1});
+		expect(memoizedFn.wasMemoized).toEqual(false);
+
+		memoizedFn({ a: 1});
+		expect(memoizedFn.wasMemoized).toEqual(false);
+
+		memoizedFn({ a: 1});
+		expect(memoizedFn.wasMemoized).toEqual(false);
+
+		memoizedFn(a1);
+		expect(memoizedFn.wasMemoized).toEqual(true);
+
+		expect(memoizedFn.lru.length).toEqual(5);
 	});
 
 	it("should be memoized", () => {
@@ -36,4 +62,3 @@ describe("complex args", () => {
 		expect(memoizedFn.lru.length).toEqual(2);
 	});
 });
-
