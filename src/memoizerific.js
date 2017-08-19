@@ -1,8 +1,12 @@
 var MapOrSimilar = require('map-or-similar');
 
-module.exports = function (limit) {
+module.exports = function (limit, normalizerFn) {
 	var cache = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true'),
 		lru = [];
+
+  if (normalizerFn === undefined) {
+    normalizerFn = function (obj) { return obj; };
+  }
 
 	return function (fn) {
 		var memoizerific = function () {
@@ -20,15 +24,16 @@ module.exports = function (limit) {
 
 			// loop through each argument to traverse the map tree
 			for (i = 0; i < argsLengthMinusOne; i++) {
+				var key = normalizerFn(arguments[i]);
 				lruPath[i] = {
 					cacheItem: currentCache,
-					arg: arguments[i]
+					arg: key
 				};
 
 				// climb through the hierarchical map tree until the second-last argument has been found, or an argument is missing.
 				// if all arguments up to the second-last have been found, this will potentially be a cache hit (determined later)
-				if (currentCache.has(arguments[i])) {
-					currentCache = currentCache.get(arguments[i]);
+				if (currentCache.has(key)) {
+					currentCache = currentCache.get(key);
 					continue;
 				}
 
@@ -36,14 +41,15 @@ module.exports = function (limit) {
 
 				// make maps until last value
 				newMap = new MapOrSimilar(process.env.FORCE_SIMILAR_INSTEAD_OF_MAP === 'true');
-				currentCache.set(arguments[i], newMap);
+				currentCache.set(key, newMap);
 				currentCache = newMap;
 			}
 
+			var key = normalizerFn(arguments[argsLengthMinusOne]);
 			// we are at the last arg, check if it is really memoized
 			if (isMemoized) {
-				if (currentCache.has(arguments[argsLengthMinusOne])) {
-					fnResult = currentCache.get(arguments[argsLengthMinusOne]);
+				if (currentCache.has(key)) {
+					fnResult = currentCache.get(key);
 				}
 				else {
 					isMemoized = false;
@@ -53,14 +59,14 @@ module.exports = function (limit) {
 			// if the result wasn't memoized, compute it and cache it
 			if (!isMemoized) {
 				fnResult = fn.apply(null, arguments);
-				currentCache.set(arguments[argsLengthMinusOne], fnResult);
+				currentCache.set(key, fnResult);
 			}
 
 			// if there is a cache limit, purge any extra results
 			if (limit > 0) {
 				lruPath[argsLengthMinusOne] = {
 					cacheItem: currentCache,
-					arg: arguments[argsLengthMinusOne]
+					arg: key
 				};
 
 				if (isMemoized) {
