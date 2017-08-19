@@ -28,7 +28,14 @@ describe("null args", () => {
 
 	it("should have multiple cached items", () => {
 		memoizedFn(arg1, arg2, arg3);
+		expect(memoizedFn.wasMemoized).toEqual(true);
 		memoizedFn(arg1, arg2, 1);
+		expect(memoizedFn.wasMemoized).toEqual(false);
+		expect(memoizedFn.lru.length).toEqual(2);
+	});
+
+	it("should not confuse undefined and null", () => {
+		memoizedFn(arg2, arg1, arg3);
 		expect(memoizedFn.wasMemoized).toEqual(false);
 		expect(memoizedFn.lru.length).toEqual(2);
 	});
