@@ -6,12 +6,12 @@ Fast (see benchmarks), small (1k min/gzip), efficient, JavaScript memoization li
 Uses JavaScript's new [Map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) object for instant lookups, or a [performant polyfill](https://github.com/thinkloop/map-or-similar) if Map is not available - does not do expensive serialization or string manipulation.
 
 Fully supports multiple complex arguments.
-Implements least recently used (LRU) caching to maintain only the most recent results.
+Uses least-recently-used (LRU) caching to maintain only the most recent results.
 
 Made for the browser and nodejs.
 
-Memoization is the process of caching function results so that they can be returned cheaply
-without re-execution, when the function is called again with the same arguments.
+Memoization is the process of caching function results so that they may be returned cheaply
+without re-execution, when the function is called again using the same arguments.
 This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
 and the push to calculate derived data on the fly to maintain minimal state.
 
@@ -29,19 +29,19 @@ Or use one of the compiled distributions compatible in any environment (UMD):
 - [memoizerific.min.gzip.js](https://github.com/thinkloop/memoizerific/raw/master/memoizerific.min.gzip.js) (minified + gzipped)
 
 
-## Use
+## Quick Start
 ```javascript
 var memoizerific = require('memoizerific');
 
-var myExpensiveFunctionMemoized = memoizerific(50)(function(arg1, arg2, arg3) {
-    // so many long expensive calls in here
+var memoized = memoizerific(50)(function(arg1, arg2, arg3) {
+    // many long expensive calls here
 });
 
-myExpensiveFunctionMemoized(1, 2, 3); // that took long to process
-myExpensiveFunctionMemoized(1, 2, 3); // wow, that one was instant!
+memoized(1, 2, 3); // that took long to process
+memoized(1, 2, 3); // this one was instant!
 
-myExpensiveFunctionMemoized(2, 3, 4); // expensive again :(
-myExpensiveFunctionMemoized(2, 3, 4); // woah, this one was dirt cheap
+memoized(2, 3, 4); // expensive again :(
+memoized(2, 3, 4); // this one was cheap!
 ```
 Or with complex arguments:
 ```javascript
@@ -50,14 +50,16 @@ var complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
     complexArg3 = new Map([['d', 55],['e', 66]]), // new Map object
     complexArg4 = new Set(); // new Set object
 
-myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
-myExpensiveFunctionMemoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
+memoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
+memoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
 ```
 
-## Options
-There is one option available:
+## Arguments
+There are two arguments:
 
-`limit:` the max number of results to cache.
+`limit (required):` the max number of items to cache before least recently used items are removed.
+
+`fn (required):` the function to memoize.
 
 
 ```javascript
@@ -82,35 +84,61 @@ myMemoized(1); // function runs again...
 ```
 
 ## Equality
-Arguments are compared using strict equality.
+Arguments are compared using strict equality, while taking into account small edge cases like NaN !== NaN.
 A complex object will only trigger a cache hit if it refers to the exact same object in memory,
 not just another object that has similar properties.
-For example, the following code won't produce a cache hit even though the objects look the same:
+For example, the following code will not produce a cache hit even though the objects look the same:
 
 ```javascript
-// memoize 1 result
 var myMemoized = memoizerific(1)(function(arg1) {});
 
-myMemoized({ a: true }); // function runs
+myMemoized({ a: true });
 myMemoized({ a: true }); // not cached, runs again
 
 ```
 
 This is because a new object is being created on each invocation, rather than the same object being passed in.
-To _fix_ this, the argument can be saved in a common variable:
+
+A common scenario where this may appear is when providing options to functions, such as: `ajax(url, opts)`,  where `opts` is an object of options.
+
+Typically this would be called with an inline object like this: `ajax('https://domain.com', {timeout: 10000})`.
+
+If that function were memoized, it would not hit the cache because the `opts` object would be different each time.
+
+There are several ways to _fix_ this:
+
+#### Wrapper Function
+Wrap your function in a higher-level function that does pre-processing:
 
 ```javascript
-// memoize 1 result
-var myMemoized = memoizerific(1)(function(arg1) {});
-var arg = { a: true };
+// memoize ajax() with wrapper function
+var callAjax = memoizerific(1)(function(domain, timeout) {
+  return ajax(domain, {timeout: timeout});
+});
 
-myMemoized(arg); // function runs
-myMemoized(arg); // cache hit!
+callAjax('http://domain.com', 10000);
+callAjax('http://domain.com', 10000); // cache hit
+```
+
+#### Store Arguments
+Store arguments that need to be reused later on:
+
+```javascript
+// memoize ajax() (signature of ajax(url, opts))
+var callAjax = memoizerific(1)(ajax);
+
+// store the argument
+var opts = { timeout: 10000 };
+
+callAjax('http://domain.com', opts);
+callAjax('http://domain.com', opts); // cache hit
 
 ```
 
-There is an open suggestion to allow for custom comparison functions.
-If you think that would be useful please +1 [issue #10](https://github.com/thinkloop/memoizerific/issues/10).
+#### Use Immutability
+The inherent challenges with comparison in Javascript have pushed developers towards immutability.
+Rather than update an object when it needs to change, discard it completely, and replace it with a new object that has the changes reflected.
+This way when it comes time for comparison, it can be done instantly using strict equality.
 
 
 ## Internals
