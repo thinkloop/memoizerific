@@ -5,15 +5,15 @@ Fast (see benchmarks), small (1k min/gzip), efficient, JavaScript memoization li
 
 Uses JavaScript's new [Map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) object for instant lookups, or a [performant polyfill](https://github.com/thinkloop/map-or-similar) if Map is not available - does not do expensive serialization or string manipulation.
 
-Fully supports multiple complex arguments.
-Uses least-recently-used (LRU) caching to maintain only the most recent results.
+Supports multiple complex arguments.
+Includes least-recently-used (LRU) caching to maintain only the most recent specified number of results.
 
-Made for the browser and nodejs.
+Compatible with the browser and nodejs.
 
 Memoization is the process of caching function results so that they may be returned cheaply
-without re-execution, when the function is called again using the same arguments.
-This is especially useful with the rise of [redux-philosophy](https://github.com/rackt/redux),
-and the push to calculate derived data on the fly to maintain minimal state.
+without re-execution if the function is called again using the same arguments.
+This is especially useful with the rise of [redux] (https://github.com/rackt/redux),
+and the push to calculate all derived data on the fly instead of maintaining it in state.
 
 ## Install
 Add to your project directly from npm:
