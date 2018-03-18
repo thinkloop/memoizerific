@@ -33,7 +33,7 @@ Or use one of the compiled distributions compatible in any environment (UMD):
 ```javascript
 const memoizerific = require('memoizerific');
 
-// memoize the 50 most recent argument combinations of our custom function
+// memoize the 50 most recent argument combinations of our function
 const memoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // many long expensive calls here
 });
