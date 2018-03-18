@@ -112,7 +112,7 @@ myMemoized({ a: true }); // not cached, the two objects are different instances 
 
 This is because a new object is being created on each invocation, rather than the same object being passed in.
 
-A common scenario where this may appear is when providing options to functions, such as: `do(opts)`,  where `opts` is an object of options.
+A common scenario where this may appear is when providing options to functions, such as: `do(opts)`,  where `opts` is an object.
 
 Typically this would be called with an inline object like this: `do({prop1: 10000, prop2: 'abc'})`.
 
@@ -121,7 +121,7 @@ If that function were memoized, it would not hit the cache because the `opts` ob
 There are several ways around this:
 
 #### Store Arguments
-Store arguments separately for use later on:
+Store constant arguments separately for use later on:
 
 ```javascript
 const do = memoizerific(1)(function(opts) {
@@ -150,7 +150,7 @@ callDo(1000, 'abc'); // cache hit
 ```
 
 ## Internals
-Internal properties of the memoized function have been exposed for debugging and educational purposes. 
+Meta properties are available for introspection for debugging and informational purposes. 
 They should not be manipulated directly, only read.
 The following properties are available:
 
@@ -178,10 +178,10 @@ console.log(callDo.wasMemoized); // true
 ## Principles
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
-Some criteria we look for in a production-worthy solution:
+Some criteria to look for:
 
 - **Support for multiple arguments**
-- **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, any object structure, not just primitives like strings or numbers.
+- **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, and any object structure, not just primitives like strings or numbers.
 - **Controlled cache**: A cache that grows unimpeded will quickly become a memory leak and source of bugs.
 - **Consistent performance profile**: Performance should degrade linearly and predictably as parameters becomes less favorable.
 
@@ -204,10 +204,10 @@ myMemoized(
 );
 
 ```
-The process involved calling the memoized functions thousands times using varying numbers of arguments (between 2-8) and with varying amounts of repetition (more repetion means more cache hits and vice versa).
+Testing involves calling the memoized functions thousands times using varying numbers of arguments (between 2-8) and with varying amounts of data repetition (more repetion means more cache hits and vice versa).
 
 ##### Measurements
-Measurements from 5000 iterations of each combination of number of args and variance on firefox 44 are as follows:
+Following are measurements from 5000 iterations of each combination of number of arguments and variance on firefox 44:
 
 | Cache Size | Num Args | Approx. Cache Hits (variance) | LRU-Memoize | Memoizee | Memoizerific | % Faster |
 | :--------: | :------: | :---------------------------: | :---------: | :------: | :----------: | :------: |
@@ -236,11 +236,11 @@ Approx. Cache Hits (variance) : How varied the passed in arguments are. If the e
 
 ##### Results
 
-LRU-Memoize performed well when there were few arguments and lots of cache hits, but degraded heavily as they increased and decreased respectively. At 4+ arguments it was up to 20x slower, enough to cause material consequences.
+LRU-Memoize performed well with few arguments and lots of cache hits, but degraded quickly as the parameters became less favorable. At 4+ arguments it was up to 20x slower, enough to cause material concern.
 
-Memoizee performed reliably with adequate speed. 
+Memoizee performed reliably with good speed.
 
-Memoizerific was fastest by about 30% with predictable linear decreases in performance as the tests became more challenging.
+Memoizerific was fastest by about 30% with linear decreases in performance as tests became more challenging. 
 
 ## License
 
