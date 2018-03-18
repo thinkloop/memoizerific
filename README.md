@@ -31,9 +31,9 @@ Or use one of the compiled distributions compatible in any environment (UMD):
 
 ## Quick Start
 ```javascript
-var memoizerific = require('memoizerific');
+const memoizerific = require('memoizerific');
 
-var memoized = memoizerific(50)(function(arg1, arg2, arg3) {
+const memoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // many long expensive calls here
 });
 
@@ -45,7 +45,7 @@ memoized(2, 3, 4); // this one was cheap!
 ```
 Or with complex arguments:
 ```javascript
-var complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
+const complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
     complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // objects within arrays within arrays
     complexArg3 = new Map([['d', 55],['e', 66]]), // new Map object
     complexArg4 = new Set(); // new Set object
@@ -74,7 +74,7 @@ For example:
 
 ```javascript
 // memoize 1 result
-var myMemoized = memoizerific(1)(function(arg1) {});
+const myMemoized = memoizerific(1)(function(arg1) {});
 
 myMemoized(1); // function runs, result is cached
 myMemoized(1); // cached result is returned
@@ -90,60 +90,55 @@ not just another object that has similar properties.
 For example, the following code will not produce a cache hit even though the objects look the same:
 
 ```javascript
-var myMemoized = memoizerific(1)(function(arg1) {});
+const myMemoized = memoizerific(1)(function(arg1) {});
 
 myMemoized({ a: true });
-myMemoized({ a: true }); // not cached, runs again
+myMemoized({ a: true }); // not cached, the two objects are different instances even though they look the same
 
 ```
 
 This is because a new object is being created on each invocation, rather than the same object being passed in.
 
-A common scenario where this may appear is when providing options to functions, such as: `ajax(url, opts)`,  where `opts` is an object of options.
+A common scenario where this may appear is when providing options to functions, such as: `do(opts)`,  where `opts` is an object of options.
 
-Typically this would be called with an inline object like this: `ajax('https://domain.com', {timeout: 10000})`.
+Typically this would be called with an inline object like this: `do({prop1: 10000, prop2: 'abc'})`.
 
-If that function were memoized, it would not hit the cache because the `opts` object would be different each time.
+If that function were memoized, it would not hit the cache because the `opts` object would be newly created each time.
 
-There are several ways to _fix_ this:
-
-#### Wrapper Function
-Wrap your function in a higher-level function that does pre-processing:
-
-```javascript
-// memoize ajax() with wrapper function
-var callAjax = memoizerific(1)(function(domain, timeout) {
-  return ajax(domain, {timeout: timeout});
-});
-
-callAjax('http://domain.com', 10000);
-callAjax('http://domain.com', 10000); // cache hit
-```
+There are several ways around this:
 
 #### Store Arguments
-Store arguments that need to be reused later on:
+Store arguments separately for use later on:
 
 ```javascript
-// memoize ajax() (signature of ajax(url, opts))
-var callAjax = memoizerific(1)(ajax);
+const do = memoizerific(1)(function(opts) {
+    // function body
+});
 
-// store the argument
-var opts = { timeout: 10000 };
+// store the argument object
+const opts = { prop1: 10000, prop2: 'abc' };
 
-callAjax('http://domain.com', opts);
-callAjax('http://domain.com', opts); // cache hit
+do(opts);
+do(opts); // cache hit
 
 ```
 
-#### Use Immutability
-The inherent challenges with comparison in Javascript have pushed developers towards immutability.
-Rather than update an object when it needs to change, discard it completely, and replace it with a new object that has the changes reflected.
-This way when it comes time for comparison, it can be done instantly using strict equality.
+#### Destructure 
+Destructure the object and memoize its simple properties (strings, numbers, etc) using a wrapper function:
 
+```javascript
+// it doesn't matter that a new object is being created internally because the simple values in the wrapping function are memoized
+const callDo = memoizerific(1)(function(prop1, prop2) {
+  return do({prop1, prop2 });
+});
+
+callDo(1000, 'abc');
+callDo(1000, 'abc'); // cache hit
+```
 
 ## Internals
-The internals of the memoized function are available for introspection.
-They should not be manipulated directly, but can be useful to read.
+Internal properties of the memoized function have been exposed for debugging and educational purposes. 
+They should not be manipulated directly, only read.
 The following properties are available:
 
 ```Slim
@@ -154,17 +149,30 @@ memoizedFn.lru         : The lru object that stores the most recent arguments ca
 
 ```
 
-## Compared
+For example:
+
+```
+const callDo = memoizerific(1)(function(prop1, prop2) {
+  return do({prop1, prop2 });
+});
+
+callDo(1000, 'abc');
+console.log(callDo.wasMemoized); // false
+callDo(1000, 'abc');
+console.log(callDo.wasMemoized); // true
+```
+
+## Principles
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
-Some criteria to look for for a production-worthy memoization solution:
+Some criteria we look for in a production-worthy solution:
 
-- **Support for multiple arguments**: Some only support one argument.
-- **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, etc. (not just primitives like strings or numbers).
+- **Support for multiple arguments**
+- **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, any object structure, not just primitives like strings or numbers.
 - **Controlled cache**: A cache that grows unimpeded will quickly become a memory leak and source of bugs.
-- **Consistent performance profile**: Many libs perform well within certain parameters, but start to vary wildly in others, for example if too many arguments are used, or the objects become too complex. Performance should degrade relatively linearly as the environment becomes less favorable.
+- **Consistent performance profile**: Performance should degrade linearly and predictably as parameters becomes less favorable.
 
-Two libs that meet the criteria are:
+Two libs with traction that meet the criteria are:
 
 :heavy_check_mark: [Memoizee](https://github.com/medikoo/memoizee) (@medikoo)
 
@@ -173,7 +181,7 @@ Two libs that meet the criteria are:
 
 ## Benchmarks
 
-Benchmarks were done using large and complex data. Example arguments look like:
+Benchmarks were performed with complex data. Example arguments look like:
 ```javascript
 myMemoized(
     { a: 1, b: [{ c: 2, d: { e: 3 }}] }, // 1st argument
@@ -183,11 +191,10 @@ myMemoized(
 );
 
 ```
-The process involves calling the memoized functions many times using varying numbers of arguments (between 2-8) and with varying amounts of repetition (more repetion means more cache hits and vice versa).
-them to each library.
+The process involved calling the memoized functions thousands times using varying numbers of arguments (between 2-8) and with varying amounts of repetition (more repetion means more cache hits and vice versa).
 
 ##### Measurements
-Measurements from 5000 iterations of each combination on firefox 44:
+Measurements from 5000 iterations of each combination of number of args and variance on firefox 44 are as follows:
 
 | Cache Size | Num Args | Approx. Cache Hits (variance) | LRU-Memoize | Memoizee | Memoizerific | % Faster |
 | :--------: | :------: | :---------------------------: | :---------: | :------: | :----------: | :------: |
@@ -216,11 +223,11 @@ Approx. Cache Hits (variance) : How varied the passed in arguments are. If the e
 
 ##### Results
 
-LRU-Memoize performed well with few arguments and lots of cache hits, but quickly degraded as the environment became more challenging. At 4+ arguments it was up to 20x slower, enough to cause material consequences.
+LRU-Memoize performed well when there were few arguments and lots of cache hits, but degraded heavily as they increased and decreased respectively. At 4+ arguments it was up to 20x slower, enough to cause material consequences.
 
-Memoizee performed well and is a solid library.
+Memoizee performed reliably with adequate speed. 
 
-Memoizerific was the fastest by about 30%. 
+Memoizerific was fastest by about 30% with predictable linear decreases in performance as the tests became more challenging.
 
 ## License
 
