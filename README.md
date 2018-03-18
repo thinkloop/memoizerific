@@ -30,6 +30,8 @@ Or use one of the compiled distributions compatible in any environment (UMD):
 
 
 ## Quick Start
+Memoize the 50 most recent argument combinations of your custom function:
+
 ```javascript
 const memoizerific = require('memoizerific');
 
@@ -43,15 +45,16 @@ memoized(1, 2, 3); // this one was instant!
 memoized(2, 3, 4); // expensive again :(
 memoized(2, 3, 4); // this one was cheap!
 ```
+
 Or with complex arguments:
 ```javascript
-const complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
+const 
+    complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
     complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // objects within arrays within arrays
-    complexArg3 = new Map([['d', 55],['e', 66]]), // new Map object
-    complexArg4 = new Set(); // new Set object
+    complexArg3 = new Set(); // new Set object
 
-memoized(complexArg1, complexArg2, complexArg3, complexArg4); // slow
-memoized(complexArg1, complexArg2, complexArg3, complexArg4); // instant!
+memoized(complexArg1, complexArg2, complexArg3); // slow
+memoized(complexArg1, complexArg2, complexArg3); // instant!
 ```
 
 ## Arguments
@@ -61,7 +64,6 @@ There are two arguments:
 
 `fn (required):` the function to memoize.
 
-
 ```javascript
 memoizerific(limit)(fn);
 
@@ -69,6 +71,7 @@ memoizerific(1)(function(arg1){}); // memoize the last result for a given argume
 memoizerific(10000)(function(arg1, arg2){}); // memoize the last 10,000 unique argument combinations
 memoizerific(0)(function(arg1){}); // memoize infinity results (not recommended)
 ```
+
 The cache works using LRU logic, purging the least recently used results when the limit is reached.
 For example:
 
