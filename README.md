@@ -89,11 +89,11 @@ For example:
 // memoize 1 result
 const myMemoized = memoizerific(1)(function(arg1) {});
 
-myMemoized(1); // function runs, result is cached
-myMemoized(1); // cached result is returned
-myMemoized(2); // function runs again, new result is cached, old cached result is purged
-myMemoized(2); // new cached result is returned
-myMemoized(1); // function runs again...
+myMemoized('a'); // function runs, result is cached
+myMemoized('a'); // cached result is returned
+myMemoized('b'); // function runs again, new result is cached, old cached result is purged
+myMemoized('b'); // cached result is returned
+myMemoized('a'); // function runs again
 ```
 
 ## Equality
