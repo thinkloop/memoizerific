@@ -240,7 +240,7 @@ LRU-Memoize performed well with few arguments and lots of cache hits, but degrad
 
 Memoizee performed reliably with good speed.
 
-Memoizerific was fastest by about 30% with linear decreases in performance as tests became more challenging. 
+Memoizerific was fastest by about 30% with predictable decreases in performance as tests became more challenging. It is built for real-world production use-cases.
 
 ## License
 
