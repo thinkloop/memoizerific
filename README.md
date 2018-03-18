@@ -63,7 +63,7 @@ There are two required arguments:
 
 `fn (required):` the function to memoize.
 
-That are called like this:
+The arguments are specified like this:
 
 ```javascript
 memoizerific(limit)(fn);
