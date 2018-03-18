@@ -16,7 +16,7 @@ This is especially useful with the rise of [redux] (https://github.com/rackt/red
 and the push to calculate all derived data on the fly instead of maintaining it in state.
 
 ## Install
-Add to your project directly from npm:
+NPM:
 
 ```
 npm install memoizerific --save
