@@ -30,11 +30,10 @@ Or use one of the compiled distributions compatible in any environment (UMD):
 
 
 ## Quick Start
-Memoize the 50 most recent argument combinations of your custom function:
-
 ```javascript
 const memoizerific = require('memoizerific');
 
+// memoize the 50 most recent argument combinations of our custom function
 const memoized = memoizerific(50)(function(arg1, arg2, arg3) {
     // many long expensive calls here
 });
@@ -58,18 +57,29 @@ memoized(complexArg1, complexArg2, complexArg3); // instant!
 ```
 
 ## Arguments
-There are two arguments:
+There are two required arguments:
 
 `limit (required):` the max number of items to cache before least recently used items are removed.
 
 `fn (required):` the function to memoize.
 
+That are called like this:
+
 ```javascript
 memoizerific(limit)(fn);
+```
 
-memoizerific(1)(function(arg1){}); // memoize the last result for a given argument
-memoizerific(10000)(function(arg1, arg2){}); // memoize the last 10,000 unique argument combinations
-memoizerific(0)(function(arg1){}); // memoize infinity results (not recommended)
+Examples:
+
+```javascript
+// memoize 1 argument combination
+memoizerific(1)(function(arg1, arg2){});
+
+// memoize the last 10,000 unique argument combinations
+memoizerific(10000)(function(arg1, arg2){}); 
+
+// memoize infinity results (not recommended)
+memoizerific(0)(function(arg1){}); 
 ```
 
 The cache works using LRU logic, purging the least recently used results when the limit is reached.
