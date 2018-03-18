@@ -59,7 +59,7 @@ memoized(complexArg1, complexArg2, complexArg3); // instant!
 ## Arguments
 There are two required arguments:
 
-`limit (required):` the max number of items to cache before least recently used items are removed.
+`limit (required):` the max number of items to cache before the least recently used items are removed.
 
 `fn (required):` the function to memoize.
 
