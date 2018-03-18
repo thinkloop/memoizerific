@@ -97,7 +97,7 @@ myMemoized('a'); // function runs again
 ```
 
 ## Equality
-Arguments are compared using strict equality, while taking into account small edge cases like NaN !== NaN.
+Arguments are compared using strict equality, while taking into account small edge cases like NaN !== NaN (NaN is a valid argument type).
 A complex object will only trigger a cache hit if it refers to the exact same object in memory,
 not just another object that has similar properties.
 For example, the following code will not produce a cache hit even though the objects look the same:
