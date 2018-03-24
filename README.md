@@ -176,14 +176,14 @@ console.log(callDo.wasMemoized); // true
 ```
 
 ## Principles
-There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access, or server async requests.
+There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
 Some criteria to look for:
 
 - **Support for multiple arguments**
 - **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, and any object structure, not just primitives like strings or numbers.
 - **Controlled cache**: A cache that grows unimpeded will quickly become a memory leak and source of bugs.
-- **Consistent performance profile**: Performance should degrade linearly and predictably as parameters becomes less favorable.
+- **Consistent performance profile**: Performance should degrade linearly and predictably as parameters become less favorable.
 
 Two libs with traction that meet the criteria are:
 
@@ -204,7 +204,7 @@ myMemoized(
 );
 
 ```
-Testing involves calling the memoized functions thousands times using varying numbers of arguments (between 2-8) and with varying amounts of data repetition (more repetion means more cache hits and vice versa).
+Tests involved calling the memoized functions thousands times using varying numbers of arguments (between 2-8) and with varying amounts of data repetition (more repetion means more cache hits and vice versa).
 
 ##### Measurements
 Following are measurements from 5000 iterations of each combination of number of arguments and variance on firefox 44:
@@ -240,7 +240,7 @@ LRU-Memoize performed well with few arguments and lots of cache hits, but degrad
 
 Memoizee performed reliably with good speed.
 
-Memoizerific was fastest by about 30% with predictable decreases in performance as tests became more challenging. It is built for real-world production use.
+Memoizerific was fastest by about 30% with predictable decreases in performance as tests became more challenging. 
 
 ## License
 
