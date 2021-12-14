@@ -112,24 +112,22 @@ myMemoized({ a: true }); // not cached, the two objects are different instances 
 
 This is because a new object is being created on each invocation, rather than the same object being passed in.
 
-A common scenario where this may appear is when providing options to functions, such as: `do(opts)`,  where `opts` is an object.
+A common scenario is when providing options like this: `do({opt1: 10000, op2: 'abc'})`.
 
-Often this would be called with an inline object like this: `do({prop1: 10000, prop2: 'abc'})`.
-
-If that function were memoized, it would never hit the cache because the `opts` object would be newly created each time.
+If that function were memoized, it would never hit the cache because the options object would be newly created on each invocation.
 
 To get around this you can:
 
 #### Store Arguments Separately
-Store constant arguments separately for use later on:
+Store complex arguments separately for use later on:
 
 ```javascript
 const do = memoizerific(1)(function(opts) {
     // function body
 });
 
-// store the argument object
-const opts = { prop1: 10000, prop2: 'abc' };
+// store the options object
+const opts = { opt1: 10000, opt2: 'abc' };
 
 do(opts);
 do(opts); // cache hit
@@ -175,7 +173,7 @@ console.log(myMemoized.wasMemoized); // true
 ## Principles
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
-Some criteria to look for when shopping for such a lib:
+Some criteria to look for when shopping for a lib like this:
 
 - **Support for multiple arguments**
 - **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, and any object structure, not just primitives like strings or numbers.
