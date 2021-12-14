@@ -49,8 +49,8 @@ Or with complex arguments:
 ```javascript
 const 
     complexArg1 = { a: { b: { c: 99 }}}, // hairy nested object
-    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // objects within arrays within arrays
-    complexArg3 = new Set(); // new Set object
+    complexArg2 = [{ z: 1}, { q: [{ x: 3 }]}], // funky objects within arrays within arrays
+    complexArg3 = new Set(); // weird set object, anything goes
 
 memoized(complexArg1, complexArg2, complexArg3); // slow
 memoized(complexArg1, complexArg2, complexArg3); // instant!
@@ -72,7 +72,7 @@ memoizerific(limit)(fn);
 Examples:
 
 ```javascript
-// memoize 1 argument combination
+// memoize only the last argument combination
 memoizerific(1)(function(arg1, arg2){});
 
 // memoize the last 10,000 unique argument combinations
@@ -114,13 +114,13 @@ This is because a new object is being created on each invocation, rather than th
 
 A common scenario where this may appear is when providing options to functions, such as: `do(opts)`,  where `opts` is an object.
 
-Typically this would be called with an inline object like this: `do({prop1: 10000, prop2: 'abc'})`.
+Often this would be called with an inline object like this: `do({prop1: 10000, prop2: 'abc'})`.
 
-If that function were memoized, it would not hit the cache because the `opts` object would be newly created each time.
+If that function were memoized, it would never hit the cache because the `opts` object would be newly created each time.
 
-There are several ways around this:
+To get around this you can:
 
-#### Store Arguments
+#### Store Arguments Separately
 Store constant arguments separately for use later on:
 
 ```javascript
@@ -137,12 +137,11 @@ do(opts); // cache hit
 ```
 
 #### Destructure 
-Destructure the object and memoize its simple properties (strings, numbers, etc) using a wrapper function:
+Destructure complex objects into simple properties then use the simple properties inside the memoized function to re-create the complex object:
 
 ```javascript
-// it doesn't matter that a new object is being created internally because the simple values in the wrapping function are memoized
 const callDo = memoizerific(1)(function(prop1, prop2) {
-  return do({prop1, prop2 });
+  return do({prop1, prop2}); 
 });
 
 callDo(1000, 'abc');
@@ -165,20 +164,18 @@ memoizedFn.lru         : The lru object that stores the most recent arguments ca
 For example:
 
 ```
-const callDo = memoizerific(1)(function(prop1, prop2) {
-  return do({prop1, prop2 });
-});
+const myMemoized = memoizerific(1)(function(arg1) {});
 
-callDo(1000, 'abc');
-console.log(callDo.wasMemoized); // false
-callDo(1000, 'abc');
-console.log(callDo.wasMemoized); // true
+myMemoized(1000, 'abc');
+console.log(myMemoized.wasMemoized); // false
+myMemoized(1000, 'abc');
+console.log(myMemoized.wasMemoized); // true
 ```
 
 ## Principles
 There are many memoization libs available for JavaScript. Some of them have specialized use-cases, such as memoizing file-system access or server async requests.
 While others, such as this one, tackle the more general case of memoizing standard synchronous functions.
-Some criteria to look for:
+Some criteria to look for when shopping for such a lib:
 
 - **Support for multiple arguments**
 - **Support for complex arguments**: Including large arrays, complex objects, arrays-within-objects, objects-within-arrays, and any object structure, not just primitives like strings or numbers.
