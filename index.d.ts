@@ -5,9 +5,7 @@
 // inspired by https://stackoverflow.com/a/43382807
 
 declare module "memoizerific" {
+    type memoize = <R, T extends (...args: any[]) => R>(fn: T) => T;
+    function memoizerific(cacheSize: number): memoize;
     export = memoizerific;
 }
-
-type memoize = <R, T extends (...args: any[]) => R>(fn: T) => T;
-
-declare function memoizerific(cacheSize: number): memoize;
